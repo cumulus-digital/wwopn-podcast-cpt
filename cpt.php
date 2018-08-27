@@ -16,11 +16,12 @@ class CPT {
 
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
+		\add_filter( 'content_save_pre', [__CLASS__, 'editor_stripWhitespace'], 10, 1 );
+
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
 		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_playerEmbed']);
 		\add_action('save_post', [__CLASS__, 'editor_meta_playerEmbed_save'], 10, 1);
 		self::$meta_save_callbacks[] = [__CLASS__, 'editor_meta_playerEmbed_save'];
-
 
 		self::$metakeys['headerImage'] = '_' . PREFIX . '_meta_headerimage';
 		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_headerImage']);
@@ -138,6 +139,21 @@ class CPT {
 
 		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js' );
 		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(__FILE__) . 'assets/editor/styles.css' );
+	}
+
+	/**
+	 * Strip whitespace at the end of Podcast post content
+	 * @param  string $content
+	 * @return string
+	 */
+	static function editor_stripWhitespace($content) {
+		$screen = \get_current_screen();
+		if ($screen->id !== PREFIX) {
+			return;
+		}
+
+		$clean = str_replace('&nbsp;', '', $content);
+		return trim($clean);
 	}
 
 	/**
