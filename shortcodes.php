@@ -51,3 +51,18 @@ function shortcode_feature_genre($attr) {
 	return ob_get_clean();
 }
 \add_shortcode('podcasts-genre', 'WWOPN_Podcast\shortcode_feature_genre');
+
+function shortcode_embedCode($attr) {
+	$atts = \shortcode_atts( array(
+		'post' => 0,
+	), $atts, 'podcast-embed');
+
+	$id = $atts['post'];
+	if ($id == '0') return 'Please provide a post ID.';
+
+	$key = CPT::$metakeys['playerEmbed'];
+	$embed = \get_post_meta($id, $key, true);
+
+	return $embed;
+}
+\add_shortcode('podcast-embed', __NAMESPACE__ . '\shortcode_embedCode');
