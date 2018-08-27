@@ -2,7 +2,7 @@
 /**
 * Plugin Name: WWOPN Podcast Custom Post Type
 * Plugin URI: github.com/cumulus-digital/wwopn-podcast-cpt
-* GitHub Plugin URI: github.com/cumulus-digital/wwopn-podcast-cpt
+* GitHub Plugin URI: cumulus-digital/wwopn-podcast-cpt
 * Description: A plugin to create a custom post type for Podcasts
 * Version:  1.4
 * Author: Daniel Vena
