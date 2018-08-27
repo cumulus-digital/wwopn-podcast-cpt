@@ -31,6 +31,7 @@
 				'_embed': true,
 				'context': 'embed',
 				'per_page': 50,
+				'featured_media': true,
 		        '_ajax_nonce': $("#_ajax_nonce").val(),
 		        'search': query
 			};
@@ -55,7 +56,7 @@
 		    				'<tr class="found-posts ' + ((i%2) ? 'alternate' : '') + '">' +
 		    					'<td class="found-radio"><input type="radio" name="found_post_id" id="found-' + post.id + '" value="' + post.id + '"></td>' +
 		    					'<td><label for="found-' + post.id + '"><img src="' + 
-		    						(post._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url || "") +
+		    						(post.featured_media_url || "") +
 		    					'" width="75px"></label></td>' + 
 		    					'<td width="100%"><label for="found-' + post.id + '">' + post.title.rendered + '</label></td>' +
 		    				'</tr>'
@@ -87,7 +88,7 @@
 
 			// Store the feature we're editing
 			$find_post_form.data('feature_item', this);
-			
+
 			window.findPosts.close();
 			window.findPosts.open(false);
 		});
