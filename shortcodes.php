@@ -19,12 +19,12 @@ function shortcode_feature_big() {
 
 	return ob_get_clean();
 }
-\add_shortcode('podcasts-big', 'WWOPN_Podcast\shortcode_feature_big');
+\add_shortcode('podcasts-big', __NAMESPACE__ . '\shortcode_feature_big');
 
 function shortcode_feature_genre($attr) {
 	$attr = \shortcode_atts([
 		'genre_id' => 0
-	], $attr);
+	], $attr, 'podcasts-genre');
 
 	if ( ! $attr['genre_id']) {
 		return 'No Genre ID specified in shortcode.';
@@ -50,7 +50,7 @@ function shortcode_feature_genre($attr) {
 
 	return ob_get_clean();
 }
-\add_shortcode('podcasts-genre', 'WWOPN_Podcast\shortcode_feature_genre');
+\add_shortcode('podcasts-genre', __NAMESPACE__ . '\shortcode_feature_genre');
 
 function shortcode_embedCode($attr) {
 	$atts = \shortcode_atts( array(
