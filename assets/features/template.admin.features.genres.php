@@ -35,6 +35,8 @@
 
 	<?php else: ?>
 
+		<h2><?=$genre->name?> Features</h2>
+
 		<form method="POST" id="feature_posts_form">
 			<input type="hidden" name="<?=$key?>" value="genre">
 			<input type="hidden" id="find-posts-category-limit" name="genre_id" value="<?=$genre->term_id?>">
