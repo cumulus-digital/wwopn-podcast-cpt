@@ -1,4 +1,11 @@
-# WWOPN Podcast Custom Post Type
+=== WWOPN Podcast Custom Post Type ===
+Requires PHP: 5.6
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+A plugin to create a custom post type for Podcasts
+
+== Description ==
 
 This Wordpress plugin creates a new custom post type, Podcast, along with a new Genre taxonomy, a UI for creating a Big Feature of Podcasts, and featured Podcasts for each Genre.
 
