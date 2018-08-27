@@ -2,10 +2,12 @@
 
 This Wordpress plugin creates a new custom post type, Podcast, along with a new Genre taxonomy, a UI for creating a Big Feature of Podcasts, and featured Podcasts for each Genre.
 
-Shortcodes are provided for outputting the features:
+Shortcodes are provided for outputting features and Podcast data:
 
 Big Feature: [podcasts-big]
 Genre Feature: [podcasts-genre genre_id="3"]
+
+Podcast embed code field: [podcast-embed post="3"]
 
 ## Options
 
