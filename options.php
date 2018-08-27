@@ -127,7 +127,8 @@ class Options {
 		?>
 		<form action='options.php' method='post'>
 
-			<h2>WWOPN Podcast Custom Post Type</h2>
+			<h1>WWOPN Podcast Custom Post Type</h1>
+			<h2></h2>
 
 			<?php
 			\settings_fields( self::$settingsName );
