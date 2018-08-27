@@ -1,0 +1,30 @@
+#post-body .manage_genre_features:before {
+	content: "\f313";
+}
+
+.meta_extraimage {
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.meta_extraimage img {
+	display: none;
+	max-width: 100%;
+}
+	.meta_extraimage.has_image img {
+		cursor: pointer;
+		display: inline-block;
+	}
+.meta_extraimage .meta_extraimage-remove,
+.meta_extraimage .howto {
+	display: none;
+}
+	.meta_extraimage.has_image .meta_extraimage-add {
+		display: none;
+	}
+	.meta_extraimage.has_image .meta_extraimage-remove {
+		display: inline;
+	}
+	.meta_extraimage.has_image .howto {
+		display: block;
+	}
