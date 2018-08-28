@@ -149,7 +149,7 @@ class CPT {
 	static function editor_stripWhitespace($content) {
 		$screen = \get_current_screen();
 		if ($screen->id !== PREFIX) {
-			return;
+			return $content;
 		}
 
 		$clean = str_replace('&nbsp;', '', $content);
