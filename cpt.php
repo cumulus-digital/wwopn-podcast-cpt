@@ -17,6 +17,7 @@ class CPT {
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
 		\add_filter( 'content_save_pre', [__CLASS__, 'editor_stripWhitespace'], 10, 1 );
+		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg']);
 
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
 		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_playerEmbed']);
@@ -154,6 +155,20 @@ class CPT {
 
 		$clean = str_replace('&nbsp;', '', $content);
 		return trim($clean);
+	}
+
+	/**
+	 * Disable Gutenberg for this CPT
+	 * @param  boolean $is_enabled
+	 * @param  string $post_type
+	 * @return boolean
+	 */
+	static function editor_disableGutenberg($is_enabled, $post_type) {
+		if ($post_type === PREFIX) {
+			return false;
+		}
+
+		return $is_enabled;
 	}
 
 	/**
