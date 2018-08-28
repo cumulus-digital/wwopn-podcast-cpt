@@ -17,7 +17,7 @@ class CPT {
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
 		\add_filter( 'content_save_pre', [__CLASS__, 'editor_stripWhitespace'], 10, 1 );
-		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg']);
+		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
 		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_playerEmbed']);
@@ -163,7 +163,7 @@ class CPT {
 	 * @param  string $post_type
 	 * @return boolean
 	 */
-	static function editor_disableGutenberg($is_enabled, $post_type) {
+	static function editor_disableGutenberg($is_enabled, $post_type = null) {
 		if ($post_type === PREFIX) {
 			return false;
 		}
