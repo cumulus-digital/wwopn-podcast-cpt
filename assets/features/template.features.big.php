@@ -10,7 +10,12 @@
 					<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 					<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 				<?php endif ?>
-				<img src="<?=$features[$j]->icon?>" data-empty="<?=\plugin_dir_url(__FILE__)?>bigx.svg">
+				<img
+					src="<?=$features[$j]->icon?>"
+					<?php if (\is_admin()): ?>
+						data-empty="<?=$featurs[$j]->empty?>"
+					<?php endif ?>
+				>
 				<?php $j++ ?>
 			</a>
 		</li>
@@ -22,7 +27,12 @@
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
-						<img src="<?=$features[$j]->icon?>" data-empty="<?=\plugin_dir_url(__FILE__)?>bigx.svg">
+						<img
+							src="<?=$features[$j]->icon?>"
+							<?php if (\is_admin()): ?>
+								data-empty="<?=$featurs[$j]->empty?>"
+							<?php endif ?>
+						>
 						<?php $j++ ?>
 					</a>
 				</li>
@@ -32,7 +42,12 @@
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
-						<img src="<?=$features[$j]->icon?>" data-empty="<?=\plugin_dir_url(__FILE__)?>bigx.svg">
+						<img
+							src="<?=$features[$j]->icon?>"
+							<?php if (\is_admin()): ?>
+								data-empty="<?=$featurs[$j]->empty?>"
+							<?php endif ?>
+						>
 						<?php $j++ ?>
 					</a>
 				</li>
