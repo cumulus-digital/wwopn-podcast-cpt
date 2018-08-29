@@ -16,7 +16,7 @@ class CPT {
 
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
-		\add_filter( 'content_save_pre', [__CLASS__, 'editor_stripWhitespace'], 10, 1 );
+		\add_filter( 'wp_insert_post_data', [__CLASS__, 'editor_stripWhitespace'], 9, 2 );
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
@@ -144,17 +144,18 @@ class CPT {
 
 	/**
 	 * Strip whitespace at the end of Podcast post content
-	 * @param  string $content
+	 * @param  string $data
+	 * @param  object $post
 	 * @return string
 	 */
-	static function editor_stripWhitespace($content) {
-		$screen = \get_current_screen();
-		if ($screen->id !== PREFIX) {
-			return $content;
+	static function editor_stripWhitespace($data, $post) {
+		if ($post['post_type'] !== PREFIX) {
+			return $data;
 		}
 
-		$clean = str_replace('&nbsp;', '', $content);
-		return trim($clean);
+		$clean = str_replace('&nbsp;', '', $data['post_content']);
+		$data['post_content'] = trim($clean);
+		return $data;
 	}
 
 	/**
