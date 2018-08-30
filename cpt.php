@@ -154,7 +154,9 @@ class CPT {
 			return $data;
 		}
 
-		$clean = str_replace('&nbsp;', '', $data['post_content']);
+		$clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $data['post_content']);
+		$clean = str_replace('&nbsp;', '', $clean);
+
 		$data['post_content'] = trim($clean);
 		return $data;
 	}
