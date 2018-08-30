@@ -17,6 +17,8 @@ class CPT {
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
 		\add_filter( 'wp_insert_post_data', [__CLASS__, 'editor_stripWhitespace'], 9, 2 );
+		\add_filter('wp_insert_post_data', [__CLASS__, 'editor_generateExcerpt'], 20, 2);
+
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
@@ -155,9 +157,73 @@ class CPT {
 		}
 
 		$clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $data['post_content']);
+		$quotes = array(
+		    "\xC2\xAB"     => '"', // « (U+00AB) in UTF-8
+		    "\xC2\xBB"     => '"', // » (U+00BB) in UTF-8
+		    "\xE2\x80\x98" => "'", // ‘ (U+2018) in UTF-8
+		    "\xE2\x80\x99" => "'", // ’ (U+2019) in UTF-8
+		    "\xE2\x80\x9A" => "'", // ‚ (U+201A) in UTF-8
+		    "\xE2\x80\x9B" => "'", // ‛ (U+201B) in UTF-8
+		    "\xE2\x80\x9C" => '"', // “ (U+201C) in UTF-8
+		    "\xE2\x80\x9D" => '"', // ” (U+201D) in UTF-8
+		    "\xE2\x80\x9E" => '"', // „ (U+201E) in UTF-8
+		    "\xE2\x80\x9F" => '"', // ‟ (U+201F) in UTF-8
+		    "\xE2\x80\xB9" => "'", // ‹ (U+2039) in UTF-8
+		    "\xE2\x80\xBA" => "'", // › (U+203A) in UTF-8
+		);
+		$clean = strtr($clean, $quotes);
 		$clean = str_replace('&nbsp;', '', $clean);
 
 		$data['post_content'] = trim($clean);
+		return $data;
+	}
+
+	/**
+	 * Generate excerpts if once is not set
+	 * @param array $data
+	 * @param object $post
+	 * @return array
+	 */
+	static function editor_generateExcerpt($data, $post) {
+		if (
+			! empty($data['post_content']) &&
+			$data['post_status'] != 'inherit' &&
+			$data['post_status'] != 'trash' &&
+			(
+				! $data['post_excerpt'] ||
+				empty($data['post_excerpt'])
+			)
+		) {
+
+				$text = \strip_shortcodes($data['post_content']);
+				$text = \apply_filters('the_content', $text);
+				$text = str_replace(']]>', ']]&gt;', $text);
+				$text = html_entity_decode($text);
+				$length = \apply_filters('excerpt_length', 55);
+
+				$data['post_excerpt'] = \wp_trim_words($text, $length, '');
+
+		} else {
+			return $data;
+		}
+
+		$allowed_end = array('.', '!', '?', '...', '…', '&hellip;');
+		$words = explode(' ', $data['post_excerpt']);
+		$found = false;
+		$last = '';
+		while( ! $found && ! empty($words)) {
+			$last = array_pop($words);
+			$end = strrev($last);
+			$found = in_array($end{0}, $allowed_end);
+		}
+		if ( ! empty($words)) {
+			$data['post_excerpt'] = rtrim(
+				implode(
+					' ',
+					$words
+				) . $last
+			);
+		}
 		return $data;
 	}
 
@@ -320,6 +386,7 @@ class CPT {
 
 		\delete_post_meta($post_id, $key);
 	}
+
 
 }
 
