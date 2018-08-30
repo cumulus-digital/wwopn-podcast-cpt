@@ -194,6 +194,7 @@ class CPT {
 	 */
 	static function editor_generateExcerpt($data, $post) {
 		if (
+			$post['post_type'] == PREFIX &&
 			! empty($data['post_content']) &&
 			$data['post_status'] != 'inherit' &&
 			$data['post_status'] != 'trash' &&
