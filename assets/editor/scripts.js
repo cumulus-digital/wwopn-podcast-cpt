@@ -86,7 +86,7 @@
 			}
 			return;
 		});
-		$('##submitpost input, #submitpost .submitdelete')
+		$('#submitpost input, #submitpost .submitdelete')
 			.on('click', function() {
 				shouldConfirmLeave = false;
 			});
