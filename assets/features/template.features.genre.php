@@ -5,19 +5,22 @@ namespace WWOPN_Podcast;
 	<ul class="wpn-f-container">
 		<?php foreach($features as $j=>$feature): ?>
 			<li>
-				<a class="wpn-feature" href="<?=$features[$j]->permalink?>">
+				<?php if ($feature->id): ?>
+				<a class="wpn-feature" href="<?=$feature->permalink?>">
 					<?php if (\is_admin()): ?>
-						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
+						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
 						<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 					<?php endif ?>
 					<img
-						src="<?=$features[$j]->icon?>"
+						src="<?=$feature->icon?>"
 						<?php if (\is_admin()): ?>
-							data-empty="<?=$featurs[$j]->empty?>"
+							data-empty="<?=$featur->empty?>"
 						<?php endif ?>
 					>
-					<?php $j++ ?>
 				</a>
+				<?php else: ?>
+					<span></span>
+				<?php endif ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>

@@ -43,7 +43,15 @@ function shortcode_feature_genre($attr) {
 		return;
 	}
 
-	$features = GenreFeature::getFeatures($feature_ids, 5);
+	$features = array_pad(
+		GenreFeature::getFeatures($feature_ids, 5, false),
+		5,
+		(object) array(
+			'id' => null,
+			'permalink' => null,
+			'icon' => null,
+		)
+	);
 
 	ob_start();
 	require_once __DIR__ . '/assets/features/template.features.genre.php';
