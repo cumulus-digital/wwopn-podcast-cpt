@@ -1,3 +1,27 @@
+.meta_subtitle {
+	display: flex;
+	align-items: center;
+	font-size: 1.4em;
+	margin-top: 5px;
+}
+	.meta_subtitle label,
+	.meta_subtitle input {
+		flex: 0 1 auto;
+		margin-right: .5em;
+	}
+	.meta_subtitle label {
+		white-space: nowrap;
+	}
+	.meta_subtitle input {
+		padding: 3px 8px;
+		line-height: 100%;
+		height: 2em;
+		width: 100%;
+		outline: 0;
+		margin: 0 0 3px;
+		background-color: #fff;
+	}
+
 #post-body .manage_genre_features:before {
 	content: "\f313";
 }

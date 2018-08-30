@@ -21,6 +21,10 @@ class CPT {
 
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
+		self::$metakeys['subTitle'] = '_' . PREFIX . '_meta_subTitle';
+		\add_action('edit_form_after_title', [__CLASS__, 'editor_meta_subTitle']);
+		\add_action('save_post', [__CLASS__, 'editor_meta_subTitle_save'], 10, 1);
+
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
 		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_playerEmbed']);
 		\add_action('save_post', [__CLASS__, 'editor_meta_playerEmbed_save'], 10, 1);
@@ -90,6 +94,10 @@ class CPT {
 				),
 			)
 		);
+	}
+
+	static function getKey($tag) {
+		return self::$metakeys[$tag];
 	}
 
 	/**
@@ -276,6 +284,34 @@ class CPT {
 		foreach(self::$meta_save_callbacks as $cb) {
 			$cb($_POST['post_ID']);
 		}
+	}
+
+	static function editor_meta_subTitle() {
+		global $post;
+		$key = self::$metakeys['subTitle'];
+		$subtitle = \get_post_meta($post->ID, $key, true);
+		?>
+		<div class="meta_subtitle">
+			<?=\wp_nonce_field($key, $key . '-nonce');?>
+			<label for="meta_subtitle">Sub-Title:</label>
+			<input type="text" name="<?=$key?>" size="30" value="<?=esc_attr($subtitle)?>" id="meta_subtitle" spellcheck="true" autocomplete="off">
+		</div>
+		<?php
+	}
+
+	static function editor_meta_subTitle_save($post_id) {
+		if ( ! self::editor_meta_safeToSave()) {
+			return;
+		}
+
+		$key = self::$metakeys['subTitle'];
+
+		if (testPostValue($key, true)) {
+			\update_post_meta($post_id, $key, (string) $_POST[$key]);
+			return;
+		}
+
+		\delete_post_meta($post_id, $key);
 	}
 
 	/**
