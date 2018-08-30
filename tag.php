@@ -22,6 +22,7 @@ class Tag {
 			self::$prefix,
 			PREFIX,
 			array(
+				'hierarchical' => false,
 				'label' => esc_html__( 'Tags' ),
 				'labels' => array(
 					'name'               => esc_html__( 'Tags' ),
@@ -44,7 +45,6 @@ class Tag {
 					'no_terms'           => esc_html__( 'No Tags' ),
 				),
 				'meta_box_cb' => [__CLASS__, 'editor_addInstructions'],
-				'hierarchical' => false,
 				'rewrite' => array('slug' => self::$slug, 'with_front' => false),
 				'show_in_rest' => true,
 				'query_var' => true,
@@ -54,7 +54,7 @@ class Tag {
 
 
 	static function editor_addInstructions($post, $box) {
-		\post_categories_meta_box($post, $box);
+		\post_tags_meta_box($post, $box);
 		if (\current_user_can('edit_published_pages')) {
 			?>
 			<p class="howto">
