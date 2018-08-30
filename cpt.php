@@ -22,7 +22,7 @@ class CPT {
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		self::$metakeys['subTitle'] = '_' . PREFIX . '_meta_subTitle';
-		\add_action('edit_form_after_title', [__CLASS__, 'editor_meta_subTitle']);
+		\add_action('edit_form_after_title', [__CLASS__, 'editor_meta_subTitle'], 10, 1);
 		\add_action('save_post', [__CLASS__, 'editor_meta_subTitle_save'], 10, 1);
 
 		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
@@ -243,6 +243,7 @@ class CPT {
 	 * @return boolean
 	 */
 	static function editor_disableGutenberg($is_enabled, $post_type = null) {
+		var_dump($post_type); die();
 		if ($post_type === PREFIX) {
 			return false;
 		}
@@ -287,8 +288,10 @@ class CPT {
 		}
 	}
 
-	static function editor_meta_subTitle() {
-		global $post;
+	static function editor_meta_subTitle($post) {
+		if ($post->post_type !== PREFIX) {
+			return;
+		}
 		$key = self::$metakeys['subTitle'];
 		$subtitle = \get_post_meta($post->ID, $key, true);
 		?>
