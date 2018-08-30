@@ -31,11 +31,11 @@ class GenreFeature {
 			esc_html__('Genre Feature'),
 			'edit_published_posts',
 			self::$screen,
-			[__CLASS__, 'showPage']
+			[__CLASS__, 'showAdminPage']
 		);
 	}
 
-	static function showPage() {
+	static function showAdminPage() {
 		global $title;
 
 		$key = PREFIX . '_features';
