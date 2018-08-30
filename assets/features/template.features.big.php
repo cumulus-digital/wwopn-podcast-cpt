@@ -13,7 +13,7 @@
 				<img
 					src="<?=$features[$j]->icon?>"
 					<?php if (\is_admin()): ?>
-						data-empty="<?=$featurs[$j]->empty?>"
+						data-empty="<?=$features[$j]->empty?>"
 					<?php endif ?>
 				>
 				<?php $j++ ?>
@@ -30,7 +30,7 @@
 						<img
 							src="<?=$features[$j]->icon?>"
 							<?php if (\is_admin()): ?>
-								data-empty="<?=$featurs[$j]->empty?>"
+								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
 						>
 						<?php $j++ ?>
@@ -45,7 +45,7 @@
 						<img
 							src="<?=$features[$j]->icon?>"
 							<?php if (\is_admin()): ?>
-								data-empty="<?=$featurs[$j]->empty?>"
+								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
 						>
 						<?php $j++ ?>
