@@ -27,6 +27,8 @@ class Genre {
 			[__CLASS__, 'list_sortableColumn']
 		);
 
+		\add_action('init', [__CLASS__, 'rewriteRule']);
+
 	}
 
 	static function register() {
@@ -62,6 +64,18 @@ class Genre {
 				'show_admin_column' => true,
 				'query_var' => true,
 			)
+		);
+	}
+
+	/**
+	 * Add a rewrite rule so /genres goes to /pods
+	 * @return void
+	 */
+	static function rewriteRule() {
+		\add_rewrite_rule(
+			'^' . self::$slug . '/?$',
+			'index.php?name=pods',
+			'top'
 		);
 	}
 
