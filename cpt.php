@@ -221,7 +221,7 @@ class CPT {
 				implode(
 					' ',
 					$words
-				) . $last
+				) . ' ' . $last
 			);
 		}
 		return $data;
