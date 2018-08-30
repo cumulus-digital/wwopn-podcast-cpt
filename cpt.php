@@ -243,7 +243,6 @@ class CPT {
 	 * @return boolean
 	 */
 	static function editor_disableGutenberg($is_enabled, $post_type = null) {
-		var_dump($post_type); die();
 		if ($post_type === PREFIX) {
 			return false;
 		}
