@@ -61,6 +61,9 @@ class Tag {
 				Podcast tags should be descriptive of the podcast to aid
 				content discovery. e.g.: "conservative", "wrestling"
 			</p>
+			<p class="howto">
+				Do not duplicate Genres as Tags.
+			</p>
 			<?php
 		}
 	}
