@@ -77,13 +77,14 @@ class CPT {
 				'can_export'            => true,
 				'supports' => array(
 					'title',
-					'editor',
 					'excerpt',
+					'editor',
 					'revisions',
 					'thumbnail',
 				),
 				'taxonomies' => array(
 					'genre',
+					PREFIX . '_tag',
 				),
 			)
 		);

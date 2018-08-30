@@ -4,7 +4,7 @@
 * Plugin URI: github.com/cumulus-digital/wwopn-podcast-cpt
 * GitHub Plugin URI: cumulus-digital/wwopn-podcast-cpt
 * Description: A plugin to create a custom post type for Podcasts
-* Version:  1.14
+* Version:  1.15
 * Author: Daniel Vena
 * Author URI: westwoodone.com
 * License: GPL2
@@ -23,6 +23,7 @@ require_once __DIR__ . '/options.php';
 
 require_once __DIR__ . '/cpt.php';
 require_once __DIR__ . '/genre.php';
+require_once __DIR__ . '/tag.php';
 
 require_once __DIR__ . '/features.big.php';
 require_once __DIR__ . '/features.genre.php';
