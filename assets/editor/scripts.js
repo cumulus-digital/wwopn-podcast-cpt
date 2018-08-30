@@ -86,9 +86,10 @@
 			}
 			return;
 		});
-		$('#publishing-action input[name="save"]').on('click', function() {
-			shouldConfirmLeave = false;
-		});
+		$('##submitpost input, #submitpost .submitdelete')
+			.on('click', function() {
+				shouldConfirmLeave = false;
+			});
 		wpn_metas.on('change keyup', 
 			throttle(function() {
 				shouldConfirmLeave = true;
