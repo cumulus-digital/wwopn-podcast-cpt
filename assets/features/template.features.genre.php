@@ -14,7 +14,7 @@ namespace WWOPN_Podcast;
 					<img
 						src="<?=$feature->icon?>"
 						<?php if (\is_admin()): ?>
-							data-empty="<?=$featur->empty?>"
+							data-empty="<?=$feature->empty?>"
 						<?php endif ?>
 					>
 				</a>
