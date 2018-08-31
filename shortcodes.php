@@ -15,9 +15,10 @@ function shortcode_feature_big() {
 	$features = BigFeature::getFeatures($feature_ids, 9);
 
 	ob_start();
-	require_once __DIR__ . '/assets/features/template.features.big.php';
+	require __DIR__ . '/assets/features/template.features.big.php';
+	$output = ob_get_clean();
 
-	return ob_get_clean();
+	return $output;
 }
 \add_shortcode('podcasts-big', __NAMESPACE__ . '\shortcode_feature_big');
 
@@ -54,9 +55,10 @@ function shortcode_feature_genre($attr) {
 	);
 
 	ob_start();
-	require_once __DIR__ . '/assets/features/template.features.genre.php';
+	require __DIR__ . '/assets/features/template.features.genre.php';
+	$output = ob_get_clean();
 
-	return ob_get_clean();
+	return $output;
 }
 \add_shortcode('podcasts-genre', __NAMESPACE__ . '\shortcode_feature_genre');
 
