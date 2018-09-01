@@ -153,7 +153,7 @@ class Options {
 	    	$wp_admin_bar->remove_node( 'new-media' );
 
 	    	$new = $wp_admin_bar->get_node('new-content');
-	    	$new->href = \admin_url('post-new.php?post_type=wpn_podcast');
+	    	$new->href = \admin_url('post-new.php?post_type=' . PREFIX);
 	    	$wp_admin_bar->add_node($new);
 
 	    	$page = $wp_admin_bar->get_node('new-page');
