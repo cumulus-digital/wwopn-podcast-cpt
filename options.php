@@ -16,6 +16,7 @@ class Options {
 
 		\add_action( 'admin_menu', [__CLASS__, 'addAdminMenu'] );
 		\add_action( 'admin_init', [__CLASS__, 'register'] );
+		\add_action( 'admin_bar_menu', [__CLASS__, 'removeNodesFromAdminBar'], 999);
 
 		// add options to the plugins page
 		\add_action(
@@ -138,6 +139,38 @@ class Options {
 
 		</form>
 		<?php
+	}
+
+	static function removeNodesFromAdminBar($wp_admin_bar) {
+		$options = self::loadOptions();
+
+	    if (
+	    	array_key_exists(PREFIX . '_checkbox_posts', $options) &&
+	    	$options[PREFIX . '_checkbox_posts'] == 1
+	    ) {
+		    $wp_admin_bar->remove_node( 'new-post' );
+		    $wp_admin_bar->remove_node( 'new-link' );
+	    	$wp_admin_bar->remove_node( 'new-media' );
+
+	    	$new = $wp_admin_bar->get_node('new-content');
+	    	$new->href = \admin_url('post-new.php?post_type=wpn_podcast');
+	    	$wp_admin_bar->add_node($new);
+
+	    	$page = $wp_admin_bar->get_node('new-page');
+	    	$wp_admin_bar->remove_node('new-page');
+	    	$wp_admin_bar->add_node($page);
+
+	    	$user = $wp_admin_bar->get_node('new-user');
+	    	$wp_admin_bar->remove_node('new-user');
+	    	$wp_admin_bar->add_node($user);
+	    }
+
+	    if (
+	    	array_key_exists(PREFIX . '_checkbox_comments', $options) &&
+	    	$options[PREFIX . '_checkbox_comments'] == 1
+	    ) {
+	    	$wp_admin_bar->remove_node( 'comments' );
+	    }
 	}
 
 	static function execute() {

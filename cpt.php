@@ -52,7 +52,7 @@ class CPT {
 					'name'                  => esc_html__( 'Podcast Pages' ),
 					'singular_name'         => esc_html__( 'Podcast Page' ),
 					'menu_name'             => esc_html__( 'Podcasts' ),
-					'name_admin_bar'        => esc_html__( 'Podcasts' ),
+					'name_admin_bar'        => esc_html__( 'Podcast' ),
 					'all_items'             => esc_html__( 'All Podcasts' ),
 					'add_new'               => esc_html__( 'Add New' ),
 					'add_new_item'          => esc_html__( 'Add New Podcast Page' ),
