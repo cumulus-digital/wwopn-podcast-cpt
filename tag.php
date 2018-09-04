@@ -16,7 +16,7 @@ class Tag {
 		\add_action('init', [__CLASS__, 'register']);
 
 		// Make public taxonomy page list all posts in tax
-		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts']);
+		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts'], 2, 1);
 
 	}
 
