@@ -29,7 +29,7 @@ class Genre {
 		\add_action('init', [__CLASS__, 'rewriteRule']);
 
 		// Make public taxonomy page list all posts in tax
-		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts'], 2, 1);
+		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts'], 1, 1);
 
 	}
 
@@ -156,8 +156,8 @@ class Genre {
 			return;
 		}
 
-		$query->query_vars['posts_per_page'] = -1;
-		return;
+		$query->set('posts_per_page', -1);
+		return $query;
 	}
 
 }
