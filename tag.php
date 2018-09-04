@@ -15,6 +15,9 @@ class Tag {
 
 		\add_action('init', [__CLASS__, 'register']);
 
+		// Make public taxonomy page list all posts in tax
+		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts']);
+
 	}
 
 	static function register() {
@@ -67,6 +70,16 @@ class Tag {
 			<?php
 		}
 	}
+
+	static function public_getAllPosts($query) {
+		if (is_admin() || ! is_tax(self::$prefix)) {
+			return;
+		}
+
+		$query->query_vars['posts_per_page'] = -1;
+		return;
+	}
+
 
 }
 

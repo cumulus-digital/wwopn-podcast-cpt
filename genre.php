@@ -152,7 +152,7 @@ class Genre {
 	}
 
 	static function public_getAllPosts($query) {
-		if (is_admin() || ! is_tax(self::$slug)) {
+		if (is_admin() || ! is_tax(self::$prefix)) {
 			return;
 		}
 
