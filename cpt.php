@@ -310,8 +310,8 @@ class CPT {
 		$key = self::$metakeys['subTitle'];
 
 		if (testPostValue($key, true)) {
-			$_POST[$key] = \sanitize_text_field($_POST[$key]);
-			\update_post_meta($post_id, $key, (string) $_POST[$key]);
+			$value = (string) \sanitize_text_field($_POST[$key]);
+			\update_post_meta($post_id, $key, $value);
 			return;
 		}
 
@@ -365,7 +365,8 @@ class CPT {
 		$key = self::$metakeys['playerEmbed'];
 
 		if (testPostValue($key, true)) {
-			\update_post_meta($post_id, $key, (string) $_POST[$key]);
+			$value = (string) $_POST[$key];
+			\update_post_meta($post_id, $key, $value);
 			return;
 		}
 
@@ -420,8 +421,8 @@ class CPT {
 
 		$key = self::$metakeys['headerImage'];
 		if (testPostValue($key, true)) {
-			$_POST[$key] = (int) $_POST[$key];
-			\update_post_meta($post_id, $key, (int) $_POST[$key]);
+			$value = (int) $_POST[$key];
+			\update_post_meta($post_id, $key, $value);
 			return;
 		}
 
