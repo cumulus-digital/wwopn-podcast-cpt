@@ -15,8 +15,6 @@ class Genre {
 
 		\add_action('init', [__CLASS__, 'register']);
 
-		\add_action('pre_get_posts', [__CLASS__, 'orderBy']);
-
 		// Podcast list filters
 		\add_action('restrict_manage_posts', [__CLASS__, 'list_AddFilterDropdown']);
 		\add_filter('parse_query', [__CLASS__, 'list_alterFilterQuery']);
@@ -26,8 +24,12 @@ class Genre {
 			'manage_edit-' . PREFIX . '_sortable_columns',
 			[__CLASS__, 'list_sortableColumn']
 		);
+		\add_action('pre_get_posts', [__CLASS__, 'list_orderBy']);
 
 		\add_action('init', [__CLASS__, 'rewriteRule']);
+
+		// Make public taxonomy page list all posts in tax
+		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts']);
 
 	}
 
@@ -77,18 +79,6 @@ class Genre {
 			'index.php?name=pods',
 			'top'
 		);
-	}
-
-	static function orderBy($query) {
-		if( ! is_admin() )
-			return;
-
-		$orderby = $query->get('orderby');
-
-		if( 'slice' == $orderby ) {
-			$query->set('meta_key',self::$prefix);
-			$query->set('orderby','meta_value_num');
-		}
 	}
 
 	static function editor_feature_addInstructions($post, $box) {
@@ -147,6 +137,27 @@ class Genre {
 	static function list_sortableColumn($columns) {
 		$columns['taxonomy-' . self::$prefix] = self::$prefix;
 		return $columns;
+	}
+
+	static function list_orderBy($query) {
+		if( ! is_admin() )
+			return;
+
+		$orderby = $query->get('orderby');
+
+		if( 'slice' == $orderby ) {
+			$query->set('meta_key',self::$prefix);
+			$query->set('orderby','meta_value_num');
+		}
+	}
+
+	static function public_getAllPosts($query) {
+		if (is_admin() || ! is_tax(self::$slug)) {
+			return;
+		}
+
+		$query->query_vars['posts_per_page'] = -1;
+		return;
 	}
 
 }
