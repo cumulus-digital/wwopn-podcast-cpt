@@ -310,6 +310,7 @@ class CPT {
 		$key = self::$metakeys['subTitle'];
 
 		if (testPostValue($key, true)) {
+			$_POST[$key] = \sanitize_text_field($_POST[$key]);
 			\update_post_meta($post_id, $key, (string) $_POST[$key]);
 			return;
 		}
@@ -419,6 +420,7 @@ class CPT {
 
 		$key = self::$metakeys['headerImage'];
 		if (testPostValue($key, true)) {
+			$_POST[$key] = (int) $_POST[$key];
 			\update_post_meta($post_id, $key, (int) $_POST[$key]);
 			return;
 		}
