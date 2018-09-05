@@ -8,6 +8,10 @@ class Options {
 
 	static function init() {
 
+		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return false;
+		}
+
 		self::$settingsName = PREFIX;
 		self::$defaults = [
 			PREFIX . '_checkbox_posts' => 1,
@@ -24,7 +28,7 @@ class Options {
 			[__CLASS__, 'addActionLink']
 		);
 
-		self::execute();
+		\add_action('admin_menu', [__CLASS__, 'execute']);
 
 	}
 
