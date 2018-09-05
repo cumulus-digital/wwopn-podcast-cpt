@@ -2,12 +2,10 @@
 	namespace WWOPN_Podcast;
 ?>
 <div
-	class="wpn_meta_autosave meta_extraimage <?=$has_image ? 'has_image' : ''?>"
+	class="meta_extraimage <?=$has_image ? 'has_image' : ''?>"
 	data-uploader-title="<?=esc_html__('Choose an image')?>"
-	data-uploader-button-text="<?=esc_html__('Set ' . $meta_display_name)?>"
+	data-uploader-button-text="<?=esc_html__('Set ' . $meta->title)?>"
 >
-	<?=\wp_nonce_field($key, $key . '-nonce')?>
-
 	<?=$image?>
 
 	<p class="hide-if-no-js howto">
@@ -15,12 +13,12 @@
 	</p>
 	<p class="hide-if-no-js meta_extraimage-functions">
 		<a href="#" class="meta_extraimage-remove">
-			<?=esc_html__('Remove ' . $meta_display_name)?>
+			<?=esc_html__('Remove ' . $meta->title)?>
 		</a>
 		<a href="#" class="meta_extraimage-add">
-			<?=esc_html__('Set ' . $meta_display_name)?>
+			<?=esc_html__('Set ' . $meta->title)?>
 		</a>
 	</p>
-	<input type="hidden" id="<?=$key?>" class="image_id" name="<?=$key?>" value="<?=$image_id?\esc_attr($image_id):''?>">
+	<input type="hidden" id="<?=$meta->key?>" class="image_id" name="<?=$meta->key?>" value="<?=($value) ? \esc_attr($value) : '' ?>">
 
 </div>

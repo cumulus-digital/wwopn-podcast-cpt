@@ -36,6 +36,40 @@ function isPost() {
 }
 
 /**
+ * Determine if request is AJAX
+ * @return boolean
+ */
+function isAjax() {
+	if (defined('DOING_AJAX') && DOING_AJAX) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Determine if a given post or post ID is under our scope
+ * @param  mixed  $post_id
+ * @return boolean
+ */
+function isOurPost($post) {
+	if (is_object($post) || is_array($post)) {
+		$post = (object) $post;
+		if (property_exists($post, 'ID')) {
+			$id = $post->ID;
+		} else if (property_exists($post, 'id')) {
+			$id = $post->id;
+		}
+	} else {
+		$id = $post;
+	}
+	$post = \get_post($id);
+	if ($post->post_type === PREFIX) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Cast a given value
  * @param  mixed $val
  * @param  string $cast

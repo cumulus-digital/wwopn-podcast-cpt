@@ -6,38 +6,71 @@ namespace WWOPN_Podcast;
 
 class CPT {
 
+	use CPTTrait;
+
 	static $slug = 'pods';
 	static $metakeys = [];
 	static $meta_save_callbacks = [];
 
 	static function init() {
 
-		\add_action( 'init', [__CLASS__, 'register'] );
+		\add_action('init', [__CLASS__, 'register']);
 
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
-		\add_filter( 'wp_insert_post_data', [__CLASS__, 'editor_stripWhitespace'], 9, 2 );
-		\add_filter('wp_insert_post_data', [__CLASS__, 'editor_generateExcerpt'], 20, 2);
-
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
-		self::$metakeys['subTitle'] = '_' . PREFIX . '_meta_subTitle';
-		\add_action('edit_form_after_title', [__CLASS__, 'editor_meta_subTitle'], 10, 1);
-		\add_action('save_post', [__CLASS__, 'editor_meta_subTitle_save'], 10, 1);
-
-		self::$metakeys['playerEmbed'] = '_' . PREFIX . '_meta_playerembed';
-		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_playerEmbed']);
-		\add_action('save_post', [__CLASS__, 'editor_meta_playerEmbed_save'], 10, 1);
-		self::$meta_save_callbacks[] = [__CLASS__, 'editor_meta_playerEmbed_save'];
-
-		self::$metakeys['headerImage'] = '_' . PREFIX . '_meta_headerimage';
-		\add_action('add_meta_boxes', [__CLASS__, 'editor_meta_headerImage']);
-		\add_action('save_post', [__CLASS__, 'editor_meta_headerImage_save'], 10, 1 );
-		self::$meta_save_callbacks[] = [__CLASS__, 'editor_meta_headerImage_save'];
-
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
+	
+		self::registerMetaBox([
+			'key' => '_' . PREFIX . '_meta_subTitle',
+			'title' => 'Sub-Title',
+			'type' => 'text',
+			'context' => 'post-title'
+		]);
 
-		\add_action( 'wp_ajax_autosave_wwopn_podcast_meta', [__CLASS__, 'editor_meta_handleAutosave']);
+		self::registerMetaBox([
+			'key' => '_' . PREFIX . '_meta_playerembed',
+			'title' => 'Player Embed Code',
+			'howto' => '<p>Place the HTML embed code for the podcast player here, not in the post content.</p>',
+			'type' => 'textarea',
+			'saveTags' => true,
+			'context' => 'normal',
+			'priority' => 'high'
+		]);
+
+		self::registerMetaBox([
+			'key' => '_' . PREFIX . '_meta_headerimage',
+			'title' => 'Header Image',
+			'type' => 'featured_image',
+			'context' => 'side',
+			'priority' => 'low'
+		]);
+
+		self::registerMetaBox([
+			'key' => '_' . PREFIX . '_meta_social',
+			'title' => 'Social Links',
+			'type' => 'multi',
+			'subtypes' => [
+				'facebook' => [
+					'key' => 'facebook',
+					'type' => 'url',
+					'title' => 'Facebook URL',
+				],
+				'twitter' => [
+					'key' => 'twitter',
+					'type' => 'string',
+					'title' => 'Twitter Handle',
+					'howto' => '<label class="howto">Name only, do not include "@"</label>',
+					'required' => false,
+					'pattern' => '^$|^[^@].*$'
+				]
+			],
+			'context' => 'normal',
+			'priority' => 'default',
+		]);
+
+		self::parentInit();
 
 	}
 
@@ -150,90 +183,13 @@ class CPT {
 		}
 
 		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js' );
-		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(__FILE__) . 'assets/editor/styles.css' );
-	}
-
-	/**
-	 * Strip whitespace at the end of Podcast post content
-	 * @param  string $data
-	 * @param  object $post
-	 * @return string
-	 */
-	static function editor_stripWhitespace($data, $post) {
-		if ($post['post_type'] !== PREFIX) {
-			return $data;
-		}
-
-		$clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $data['post_content']);
-		$quotes = array(
-		    "\xC2\xAB"     => '"', // « (U+00AB) in UTF-8
-		    "\xC2\xBB"     => '"', // » (U+00BB) in UTF-8
-		    "\xE2\x80\x98" => "'", // ‘ (U+2018) in UTF-8
-		    "\xE2\x80\x99" => "'", // ’ (U+2019) in UTF-8
-		    "\xE2\x80\x9A" => "'", // ‚ (U+201A) in UTF-8
-		    "\xE2\x80\x9B" => "'", // ‛ (U+201B) in UTF-8
-		    "\xE2\x80\x9C" => '"', // “ (U+201C) in UTF-8
-		    "\xE2\x80\x9D" => '"', // ” (U+201D) in UTF-8
-		    "\xE2\x80\x9E" => '"', // „ (U+201E) in UTF-8
-		    "\xE2\x80\x9F" => '"', // ‟ (U+201F) in UTF-8
-		    "\xE2\x80\xB9" => "'", // ‹ (U+2039) in UTF-8
-		    "\xE2\x80\xBA" => "'", // › (U+203A) in UTF-8
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+		$params = array(
+			'url' => admin_url('admin-ajax.php', $protocol),
+			'nonce' => wp_create_nonce('ajax_nonce'),
 		);
-		$clean = strtr($clean, $quotes);
-		$clean = str_replace('&nbsp;', '', $clean);
-
-		$data['post_content'] = trim($clean);
-		return $data;
-	}
-
-	/**
-	 * Generate excerpts if once is not set
-	 * @param array $data
-	 * @param object $post
-	 * @return array
-	 */
-	static function editor_generateExcerpt($data, $post) {
-		if (
-			$post['post_type'] == PREFIX &&
-			! empty($data['post_content']) &&
-			$data['post_status'] != 'inherit' &&
-			$data['post_status'] != 'trash' &&
-			(
-				! $data['post_excerpt'] ||
-				empty($data['post_excerpt'])
-			)
-		) {
-
-				$text = \strip_shortcodes($data['post_content']);
-				$text = \apply_filters('the_content', $text);
-				$text = str_replace(']]>', ']]&gt;', $text);
-				$text = html_entity_decode($text);
-				$length = \apply_filters('excerpt_length', 55);
-
-				$data['post_excerpt'] = \wp_trim_words($text, $length, '');
-
-		} else {
-			return $data;
-		}
-
-		$allowed_end = array('.', '!', '?', '...', '…', '&hellip;');
-		$words = explode(' ', $data['post_excerpt']);
-		$found = false;
-		$last = '';
-		while( ! $found && ! empty($words)) {
-			$last = array_pop($words);
-			$end = strrev($last);
-			$found = in_array($end{0}, $allowed_end);
-		}
-		if ( ! empty($words)) {
-			$data['post_excerpt'] = rtrim(
-				implode(
-					' ',
-					$words
-				) . ' ' . $last
-			);
-		}
-		return $data;
+		\wp_localize_script( PREFIX . '_editor_scripts', 'wpn_ajax_object', $params);
+		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(__FILE__) . 'assets/editor/styles.css' );
 	}
 
 	/**
@@ -250,45 +206,8 @@ class CPT {
 		return $is_enabled;
 	}
 
-	/**
-	 * Determine if request is safe to save metadata
-	 * @return boolean
-	 */
-	static function editor_meta_safeToSave() {
-		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return false;
-		}
-
-		if ( ! isPost()) {
-			return false;
-		}
-
-		if ( ! \current_user_can('edit_pages')) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Handle custom autosave event
-	 */
-	static function editor_meta_handleAutosave() {
-		if ( ! isPOST()) {
-			return;
-		}
-
-		if ( ! testPostValue('post_ID')) {
-			return;
-		}
-		
-		foreach(self::$meta_save_callbacks as $cb) {
-			$cb($_POST['post_ID']);
-		}
-	}
-
 	static function editor_meta_subTitle($post) {
-		if ($post->post_type !== PREFIX) {
+		if ( ! isOurPost($post)) {
 			return;
 		}
 		$key = self::$metakeys['subTitle'];

@@ -47,36 +47,100 @@
 	 */
 	$(function(){
 
-		var wpn_metas = $([
-			'.wpn_meta_autosave input',
+		var $wpn_metas = $([
+			'.wpn_meta_autosave input[type!=hidden]',
+			'.wpn_meta_autosave input.image_id',
 			'.wpn_meta_autosave select',
 			'.wpn_meta_autosave textarea'
 		].join(', '));
 
-		function cmf_autosave() {
-			if ( ! ajaxurl) {
-				return;
-			}
-			var post_id = $('#post_ID').val(),
-				post_data = {
-					post_ID: post_id,
-					action: 'autosave_wwopn_podcast_meta',
-				};
-				wpn_metas.each(function(){
-					var $this = $(this);
-					post_data[$this.attr('name')] = $this.val();
-				});
-			$.ajax({
-				data: post_data,
-				type: 'POST',
-				url: ajaxurl
-			});
-		}
+		// Store original loaded values
+		$wpn_metas.each(function(){
+			var $this = $(this);
+			$this.data('original', $this.val());
+		});
 
 		// any time the meta fields change, register an autosave
-		wpn_metas.on('change keyup',
-			throttle(cmf_autosave, 60000, {leading: false, trailing: true})
-		);
+		$wpn_metas.on('change keyup', throttle(function() {
+			var $this = $(this),
+				original = $this.data('original');
+
+			if ($this.val() !== original) {
+				shouldConfirmLeave = true;
+				$this.data('do_autosave', true);
+				return;
+			}
+			$this.data('do_autosave', false);
+		}, 1000, {leading: true, trailing: true}));
+
+		// Hook into WP's autosave heartbeat
+		$(window.document).on('heartbeat-tick.autosave', function() {
+			if ( ! wpn_ajax_object) {
+				return;
+			}
+			var changed = [],
+				post_id = $('#post_ID').val(),
+				nonce = wpn_ajax_object.nonce,
+				post_data = {
+					nonce: nonce,
+					post_ID: post_id,
+					action: 'autosave_wpn_podcast_meta',
+				};
+
+			// Determine which meta fields we need to save
+			$wpn_metas.each(function() {
+				var $meta = $(this),
+					name = $meta.attr('name');
+
+				if ($meta.data('do_autosave')) {
+					if ($meta.attr('name').indexOf('[') > -1) {
+						// meta is a multi
+						var parentName = name.replace(/\[[^\]]+\]/,''),
+							key = name.replace(/[^\[]*/,'').replace(/\].*/,'').replace(/[\[\]]/,'');
+						if ( ! post_data.hasOwnProperty(parentName)) {
+							post_data[parentName] = {};
+						}
+						post_data[parentName][key] = $meta.val();
+						changed.push($meta);
+						return;
+					}
+					post_data[name] = $meta.val();
+					changed.push($meta);
+				}
+			});
+
+			if (changed.length) {
+				// Values have changed, save them
+				console.log(post_data);
+				$.ajax({
+					data: post_data,
+					type: 'POST',
+					url: wpn_ajax_object.url,
+					success: function(data) {
+						$(changed).each(function() {
+							$(this).data('do_autosave', false);
+						});
+						changed = [];
+						if (data.new_nonce) {
+							wpn_ajax_object.nonce = data.new_nonce;
+						}
+						shouldConfirmLeave = false;
+					},
+					error: function(error) {
+						if (error.responseJSON && error.responseJSON.msg) {
+							$('<div class="notice notice-error"><p>' + error.responseJSON.msg + '</p></div>').insertAfter('div.wrap h2:first');
+
+							if (error.responseJSON.new_nonce) {
+								wpn_ajax_object.nonce = error.responseJSON.new_nonce;
+							}
+
+						} else {
+							$('<div class="notice notice-error"><p>' + error.responseText.msg + '</p></div>').insertAfter('div.wrap h2:first');
+						}
+					}
+				});
+			}
+		});
 
 		// prompt before leaving
 		var shouldConfirmLeave = false;
@@ -90,11 +154,6 @@
 			.on('click', function() {
 				shouldConfirmLeave = false;
 			});
-		wpn_metas.on('change keyup', 
-			throttle(function() {
-				shouldConfirmLeave = true;
-			}, 1000)
-		);
 
 	});
 
@@ -135,8 +194,10 @@
 		// Save a selection to our hidden input and display
 		frame.on('select', function() {
 			var att = frame.state().get('selection').first().toJSON();
-			$field.val(att.id);
-			$img.attr('src', att.url);
+			$field.val(att.id).trigger('change');
+			$img
+				.attr('src', att.sizes.medium.url)
+				.attr('srcset', '');
 			$this.addClass('has_image');
 		});
 

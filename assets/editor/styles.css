@@ -1,18 +1,59 @@
-.meta_subtitle {
+.wpn_meta_autosave input:invalid,
+.wpn_meta_autosave textarea:invalid,
+.wpn_meta_autosave select:invalid {
+	background: #FEE;
+	border-color: #F00;
+}
+
+.wpn_meta_autosave {
+	display: flex;
+	align-items: flex-start;
+}
+	.wpn_meta_autosave p {
+		margin-right: 1em;
+	}
+	.wpn_meta_autosave p:last-child {
+		margin-right: 0;
+	}
+	.wpn_meta_autosave label {
+		display: block;
+	}
+	.wpn_meta_autosave input {
+		max-width: 100%;
+	}
+	@media (max-width: 800px) {
+		.wpn_meta_autosave {
+			display: block;
+		}
+		.wpn_meta_autosave p {
+			margin-right: 0;
+		}
+	}
+	#side-sortables .wpn_meta_autosave {
+		display: block;
+	}
+	#side-sortables .wpn_meta_autosave p {
+		margin-right: 0;
+	}
+
+.wpn_meta_autosave.wpn_meta-posttitle {
+	display: block;
+}
+.wpn_meta-posttitle p {
 	display: flex;
 	align-items: center;
 	font-size: 1.4em;
 	margin-top: 5px;
 }
-	.meta_subtitle label,
-	.meta_subtitle input {
+	.wpn_meta-posttitle p label,
+	.wpn_meta-posttitle p input {
 		flex: 0 1 auto;
 		margin-right: .5em;
 	}
-	.meta_subtitle label {
+	.wpn_meta-posttitle p label {
 		white-space: nowrap;
 	}
-	.meta_subtitle input {
+	.wpn_meta-posttitle p input {
 		padding: 3px 8px;
 		line-height: 100%;
 		height: 2em;
