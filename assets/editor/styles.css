@@ -6,39 +6,14 @@
 }
 
 .wpn_meta_autosave {
-	display: flex;
-	align-items: flex-start;
 }
-	.wpn_meta_autosave p {
-		margin-right: 1em;
-	}
-	.wpn_meta_autosave p:last-child {
-		margin-right: 0;
-	}
 	.wpn_meta_autosave label {
 		display: block;
 	}
 	.wpn_meta_autosave input {
-		max-width: 100%;
-	}
-	@media (max-width: 800px) {
-		.wpn_meta_autosave {
-			display: block;
-		}
-		.wpn_meta_autosave p {
-			margin-right: 0;
-		}
-	}
-	#side-sortables .wpn_meta_autosave {
-		display: block;
-	}
-	#side-sortables .wpn_meta_autosave p {
-		margin-right: 0;
+		width: 100%;
 	}
 
-.wpn_meta_autosave.wpn_meta-posttitle {
-	display: block;
-}
 .wpn_meta-posttitle p {
 	display: flex;
 	align-items: center;

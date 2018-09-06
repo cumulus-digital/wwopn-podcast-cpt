@@ -324,8 +324,8 @@ trait CPTTrait {
 			'type' => null,
 			'subtypes' => array(),
 			'saveTags' => false,
-			'display_func' => function($post, $key) {
-				self::displayMetaBox($post, $key);
+			'display_func' => function($post, $key, $type) {
+				self::displayMetaBox($post, $key, $type);
 			},
 			'howto' => null,
 			'spellcheck' => false,
@@ -367,7 +367,7 @@ trait CPTTrait {
 					$meta->key,
 					esc_html__($meta->title),
 					function($post) use ($meta) {
-						call_user_func_array($meta->display_func, [$post, $meta->key]);
+						call_user_func_array($meta->display_func, [$post, $meta->key, $meta->type]);
 					},
 					PREFIX,
 					$meta->context,
@@ -404,7 +404,7 @@ trait CPTTrait {
 	 * @param  string  $key
 	 * @return void
 	 */
-	static function displayMetaBox($post, $key) {
+	static function displayMetaBox($post, $key, $type="string") {
 		if ( ! array_key_exists($key, self::$metakeys)) {
 			throw new \Exception('Attempted to autocreate a metabox for a key which does not exist!');
 		}
@@ -413,8 +413,11 @@ trait CPTTrait {
 		$value = \get_post_meta($post->ID, $meta->key, true);
 
 		?>
-		<div class="wpn_meta_autosave">
+		<div class="wpn_meta_autosave <?=$type?>">
 			<?php self::outputType($meta, $value) ?>
+			<?php if ($type == 'multi'): ?>
+				<?=$meta->howto?>
+			<?php endif ?>
 		</div>
 		<?php
 	}
