@@ -14,22 +14,22 @@ namespace WWOPN_Podcast;
 const PLUGIN_NAME = 'wwopn-podcast-cpt';
 const PREFIX = 'wpn_podcast';
 const TXTDOMAIN = PREFIX;
-const BASEPATH = PLUGIN_NAME;
+const BASEPATH = __DIR__;
 const BASE_FILENAME = PLUGIN_NAME . DIRECTORY_SEPARATOR . PLUGIN_NAME . '.php';
 
-require_once __DIR__ . '/helpers.php';
+require_once BASEPATH . '/helpers.php';
 
-require_once __DIR__ . '/options.php';
+require_once BASEPATH . '/options.php';
 
-require_once __DIR__ . '/cpt.trait.php';
-require_once __DIR__ . '/cpt.php';
-require_once __DIR__ . '/genre.php';
-require_once __DIR__ . '/tag.php';
+require_once BASEPATH . '/traits/custom_meta.trait.php';
+require_once BASEPATH . '/cpt.php';
+require_once BASEPATH . '/genre.php';
+require_once BASEPATH . '/tag.php';
 
-require_once __DIR__ . '/features.big.php';
-require_once __DIR__ . '/features.genre.php';
+require_once BASEPATH . '/features.big.php';
+require_once BASEPATH . '/features.genre.php';
 
-require_once __DIR__ . '/shortcodes.php';
+require_once BASEPATH . '/shortcodes.php';
 
 /**
  * Flush permalinks on activation

@@ -47,7 +47,7 @@
 				<input type="submit" value="Save Configuration" class="button button-primary button-large">
 			</p>
 	
-			<?php require_once __DIR__ . '/template.features.genre.php'; ?>
+			<?php require_once BASEPATH . '/assets/features/template.features.genre.php'; ?>
 
 			<p>
 				<input type="submit" value="Save Configuration" class="button button-primary button-large">

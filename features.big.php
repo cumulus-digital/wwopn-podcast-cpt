@@ -4,7 +4,7 @@
  */
 namespace WWOPN_Podcast;
 
-require_once __DIR__ . '/features.trait.php';
+require_once BASEPATH . '/traits/features.trait.php';
 
 class BigFeature {
 
@@ -47,8 +47,8 @@ class BigFeature {
 
 		$features = self::getFeatures($feature_ids, 9);
 
-		require_once __DIR__ . '/assets/features/template.admin.features.big.php';
-		require_once __DIR__ . '/assets/post_chooser/template.findpost.php';
+		require_once BASEPATH . '/assets/features/template.admin.features.big.php';
+		require_once BASEPATH . '/assets/post_chooser/template.findpost.php';
 	}
 
 	static function saveFeature() {

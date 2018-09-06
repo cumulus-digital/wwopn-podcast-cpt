@@ -1,7 +1,7 @@
 <?php
 namespace WWOPN_Podcast;
 
-trait CPTTrait {
+trait CustomMetaboxes {
 
 	static $metakeys = [];
 
@@ -535,7 +535,7 @@ trait CPTTrait {
 			$image = \wp_get_attachment_image($value, [266, 266]);
 		}
 
-		include __DIR__ . '/assets/editor/template.meta.headerimage.php';
+		include BASEPATH . '/assets/editor/template.meta.headerimage.php';
 	}
 
 }

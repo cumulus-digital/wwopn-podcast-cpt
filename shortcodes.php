@@ -15,7 +15,7 @@ function shortcode_feature_big() {
 	$features = BigFeature::getFeatures($feature_ids, 9);
 
 	ob_start();
-	require __DIR__ . '/assets/features/template.features.big.php';
+	require BASEPATH . '/assets/features/template.features.big.php';
 	$output = ob_get_clean();
 
 	return $output;
@@ -55,7 +55,7 @@ function shortcode_feature_genre($attr) {
 	);
 
 	ob_start();
-	require __DIR__ . '/assets/features/template.features.genre.php';
+	require BASEPATH . '/assets/features/template.features.genre.php';
 	$output = ob_get_clean();
 
 	return $output;

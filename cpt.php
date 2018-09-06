@@ -6,7 +6,7 @@ namespace WWOPN_Podcast;
 
 class CPT {
 
-	use CPTTrait;
+	use CustomMetaBoxes;
 
 	static $slug = 'pods';
 	static $metakeys = [];
@@ -215,7 +215,7 @@ class CPT {
 			return;
 		}
 
-		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js' );
+		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js', ['wp-util'] );
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$params = array(
 			'url' => admin_url('admin-ajax.php', $protocol),
