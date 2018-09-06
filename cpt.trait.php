@@ -25,7 +25,7 @@ trait CPTTrait {
 		if ( ! isOurPost($post)) {
 			return;
 		}
-		wp_nonce_field('post_nonce', 'post_nonce');
+		\wp_nonce_field('post_nonce', 'post_nonce');
 	}
 
 	/**
@@ -39,7 +39,7 @@ trait CPTTrait {
 	static function sanitizeValue($type = 'string', $value, $saveTags = false, $post_id = 0) {
 		switch($type) {
 			case 'url':
-				return (string) \esc_url_raw($value);
+				return (string) esc_url_raw($value);
 				break;
 			case 'textarea':
 				return $saveTags ? (string) self::stripWhitespace($value, $post_id) : (string) \sanitize_textarea_field($value);
@@ -62,7 +62,7 @@ trait CPTTrait {
 	 */
 	static function stripWhitespace($data, $post) {
 		if (is_int($post)) {
-			$post = get_post($post);
+			$post = \get_post($post);
 		}
 
 		if (is_object($post)) {
@@ -119,7 +119,7 @@ trait CPTTrait {
 			return false;
 		}
 
-		if ( ! \current_user_can('edit_pages')) {
+		if ( ! \current_user_can('edit_published_pages')) {
 			return false;
 		}
 
@@ -199,18 +199,18 @@ trait CPTTrait {
 	 */
 	static function handleAutosave() {
 		if ( ! isAjax()) {
-			wp_send_json(['success' => false, 'msg' => 'Not an AJAX request'], 400);
+			\wp_send_json(['success' => false, 'msg' => 'Not an AJAX request'], 400);
 		}
 
 		if ( ! testPostValue('post_ID')) {
-			wp_send_json(['success' => false, 'msg' => 'Request must contain post_ID'], 400);
+			\wp_send_json(['success' => false, 'msg' => 'Request must contain post_ID'], 400);
 		}
 
 		self::verifyNonces();
 
 		// Check that we're in our own posts
 		if ( ! isOurPost($_POST['post_ID'])) {
-			wp_send_json(['success' => false, 'msg' => PREFIX . ' autosave called outsite of ' . PREFIX]);
+			\wp_send_json(['success' => false, 'msg' => PREFIX . ' autosave called outsite of ' . PREFIX]);
 		}
 		
 		$affected = [];
@@ -242,10 +242,10 @@ trait CPTTrait {
 		];
 
 		if ($success) {
-			wp_send_json($response);
+			\wp_send_json($response);
 		} else {
 			$response['msg'] = 'Autosave failed!';
-			wp_send_json($response, 400);
+			\wp_send_json($response, 400);
 		}
 	}
 
@@ -465,13 +465,13 @@ trait CPTTrait {
 		?>
 
 		<p>
-			<label for="meta_text_<?=$meta->key?>"><?=$meta->title?></label>
-			<input type="text" name="<?=$meta->key?>" size="30" value="<?=esc_attr($value)?>" id="meta_text_<?=$meta->key?>" spellcheck="<?=$meta->spellcheck ?>" autocomplete="<?=$meta->autocomplete ?>"
+			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
+			<input type="text" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="<?=$meta->spellcheck ?>" autocomplete="<?=$meta->autocomplete ?>"
 				<?php if ($meta->required): ?>
-					required="<?=$meta->required ?>"
+					required="<?=esc_attr($meta->required) ?>"
 				<?php endif ?>
 				<?php if ($meta->pattern): ?>
-					pattern="<?=$meta->pattern ?>"
+					pattern="<?=esc_attr($meta->pattern) ?>"
 				<?php endif ?>
 			>
 			<?php if ($meta->howto): ?>
@@ -486,13 +486,13 @@ trait CPTTrait {
 		?>
 
 		<p>
-			<label class="screen-reader-text" for="excerpt"><?=$meta->title?></label>
+			<label class="screen-reader-text" for="excerpt"><?=esc_html($meta->title) ?></label>
 			<textarea class="wpn-meta-autosave" name="<?=$meta->key?>" style="display:block;width:100%;height:8em;margin:12px 0 0;"
 				<?php if ($meta->required): ?>
-					required="<?=$meta->required ?>"
+					required="<?=esc_attr($meta->required) ?>"
 				<?php endif ?>
 				<?php if ($meta->pattern): ?>
-					pattern="<?=$meta->pattern ?>"
+					pattern="<?=esc_attr($meta->pattern) ?>"
 				<?php endif ?>
 			><?=esc_textarea($value) ?></textarea>
 			<?php if ($meta->howto): ?>
@@ -507,13 +507,13 @@ trait CPTTrait {
 		?>
 
 		<p>
-			<label for="meta_text_<?=$meta->key?>"><?=$meta->title?></label>
-			<input type="url" name="<?=$meta->key?>" size="30" value="<?=esc_attr($value)?>" id="meta_text_<?=$meta->key?>" spellcheck="false" autocomplete="off"
+			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
+			<input type="url" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="false" autocomplete="off"
 				<?php if ($meta->required): ?>
-					required="<?=$meta->required ?>"
+					required="<?=esc_attr($meta->required) ?>"
 				<?php endif ?>
 				<?php if ($meta->pattern): ?>
-					pattern="<?=$meta->pattern ?>"
+					pattern="<?=esc_attr($meta->pattern) ?>"
 				<?php endif ?>
 			>
 			<?php if ($meta->howto): ?>
