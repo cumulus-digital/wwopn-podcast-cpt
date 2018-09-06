@@ -216,12 +216,15 @@ class CPT {
 		}
 
 		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js', ['wp-util'] );
+
+		// Set up AJAX for editor script
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$params = array(
 			'url' => admin_url('admin-ajax.php', $protocol),
 			'nonce' => wp_create_nonce('ajax_nonce'),
 		);
 		\wp_localize_script( PREFIX . '_editor_scripts', 'wpn_ajax_object', $params);
+		
 		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(__FILE__) . 'assets/editor/styles.css' );
 	}
 
