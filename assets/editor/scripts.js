@@ -111,7 +111,6 @@
 
 			if (changed.length) {
 				// Values have changed, save them
-				console.log(post_data);
 				$.ajax({
 					data: post_data,
 					type: 'POST',
