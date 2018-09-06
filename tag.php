@@ -57,15 +57,17 @@ class Tag {
 
 
 	static function editor_addInstructions($post, $box) {
+		?>
+		<p>
+			<strong>Do not duplicate Genres as Tags.</strong>
+		</p>
+		<?php
 		\post_tags_meta_box($post, $box);
 		if (\current_user_can('edit_published_pages')) {
 			?>
 			<p class="howto">
 				Podcast tags should be descriptive of the podcast to aid
 				content discovery. e.g.: "conservative", "wrestling"
-			</p>
-			<p class="howto">
-				Do not duplicate Genres as Tags.
 			</p>
 			<?php
 		}
