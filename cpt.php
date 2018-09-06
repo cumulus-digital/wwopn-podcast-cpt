@@ -60,14 +60,47 @@ class CPT {
 				'twitter' => [
 					'key' => 'twitter',
 					'type' => 'string',
-					'title' => 'Twitter Handle',
-					'howto' => '<label class="howto">Name only, do not include "@"</label>',
-					'required' => false,
-					'pattern' => '^$|^[^@].*$'
+					'title' => 'Twitter URL',
 				]
 			],
 			'context' => 'normal',
-			'priority' => 'default',
+			'priority' => 'high',
+		]);
+
+		self::registerMetaBox([
+			'key' => '_' . PREFIX . '_meta_storelinks',
+			'title' => 'Store Links',
+			'type' => 'multi',
+			'subtypes' => [
+				'apple' => [
+					'key' => 'apple',
+					'type' => 'url',
+					'title' => 'Apple Podcasts',
+				],
+				'stitcher' => [
+					'key' => 'stitcher',
+					'type' => 'url',
+					'title' => 'Stitcher',
+				],
+				'tunein' => [
+					'key' => 'tunein',
+					'type' => 'url',
+					'title' => 'TuneIn',
+				],
+				'spotify' => [
+					'key' => 'spotify',
+					'type' => 'url',
+					'title' => 'Spotify',
+				],
+				'google' => [
+					'key' => 'google',
+					'type' => 'url',
+					'title' => 'Google Podcasts',
+				],
+			],
+			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
+			'context' => 'normal',
+			'priority' => 'high',
 		]);
 
 		self::parentInit();
