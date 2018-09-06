@@ -62,8 +62,8 @@ function isOurPost($post) {
 	} else {
 		$id = $post;
 	}
-	$post = \get_post($id);
-	if ($post->post_type === PREFIX) {
+	$postObj = \get_post($id);
+	if ($postObj && $postObj->post_type === PREFIX) {
 		return true;
 	}
 	return false;
