@@ -188,6 +188,7 @@ class Options {
 			) {
 				\remove_menu_page( 'edit.php' );
 				\remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+				\remove_meta_box('dashboard_activity', 'dashboard', 'normal');
 			}
 
 			// Disable comments
