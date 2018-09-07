@@ -187,6 +187,7 @@ class Options {
 				$options[PREFIX . '_checkbox_posts'] == 1
 			) {
 				\remove_menu_page( 'edit.php' );
+				\remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
 			}
 
 			// Disable comments
