@@ -97,6 +97,11 @@ class CPT {
 					'type' => 'url',
 					'title' => 'Google Podcasts',
 				],
+				'daily-wire' => [
+					'key' => 'daily-wire',
+					'type' => 'url',
+					'title' => 'The Daily Wire',
+				],
 			],
 			'sortable' => true,
 			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
