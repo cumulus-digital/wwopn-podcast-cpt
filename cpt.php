@@ -220,7 +220,7 @@ class CPT {
 	static function getSocialLinks($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
 		$sociallinks = \get_post_meta($pod_id, '_' . PREFIX . '_meta_social', true);
-		return array_filter($sociallinks, function($link) {
+		return array_filter((array) $sociallinks, function($link) {
 			if ($link && strlen($link)) {
 				return true;
 			}
@@ -230,7 +230,7 @@ class CPT {
 	static function getStoreLinks($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
 		$storelinks = \get_post_meta($pod_id, '_' . PREFIX . '_meta_storelinks', true);
-		return array_filter($storelinks, function($link) {
+		return array_filter((array) $storelinks, function($link) {
 			if (strlen($link)) {
 				return true;
 			}
