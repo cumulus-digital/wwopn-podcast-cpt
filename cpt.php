@@ -219,12 +219,22 @@ class CPT {
 
 	static function getSocialLinks($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
-		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_social', true);
+		$sociallinks = \get_post_meta($pod_id, '_' . PREFIX . '_meta_social', true);
+		return array_filter($sociallinks, function($link) {
+			if ($link && strlen($link)) {
+				return true;
+			}
+		});
 	}
 
 	static function getStoreLinks($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
-		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_storelinks', true);		
+		$storelinks = \get_post_meta($pod_id, '_' . PREFIX . '_meta_storelinks', true);
+		return array_filter($storelinks, function($link) {
+			if (strlen($link)) {
+				return true;
+			}
+		});
 	}
 
 	static function getPlayerEmbed($pod_id = NULL) {
