@@ -317,14 +317,14 @@ trait CustomMetaboxes {
 	 * @param  array $options
 	 * @return void
 	 */
-	static function registerMetaBox($options) {
+	static function registerMeta($options) {
 		$defaults = [
 			'key' => null,
 			'title' => null,
 			'type' => null,
 			'subtypes' => array(),
 			'saveTags' => false,
-			'display_func' => function($post, $key, $type) {
+			'displayFunc' => function($post, $key, $type) {
 				self::displayMetaBox($post, $key, $type);
 			},
 			'howto' => null,
@@ -367,7 +367,7 @@ trait CustomMetaboxes {
 					$meta->key,
 					esc_html__($meta->title),
 					function($post) use ($meta) {
-						call_user_func_array($meta->display_func, [$post, $meta->key, $meta->type]);
+						call_user_func_array($meta->displayFunc, [$post, $meta->key, $meta->type]);
 					},
 					PREFIX,
 					$meta->context,

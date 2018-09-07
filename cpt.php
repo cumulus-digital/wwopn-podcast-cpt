@@ -22,14 +22,14 @@ class CPT {
 
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
 	
-		self::registerMetaBox([
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
 			'title' => 'Sub-Title',
 			'type' => 'text',
 			'context' => 'post-title'
 		]);
 
-		self::registerMetaBox([
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_playerembed',
 			'title' => 'Player Embed Code',
 			'howto' => '<p>Place the HTML embed code for the podcast player here, not in the post content.</p>',
@@ -39,7 +39,7 @@ class CPT {
 			'priority' => 'high'
 		]);
 
-		self::registerMetaBox([
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_headerimage',
 			'title' => 'Header Image',
 			'type' => 'featured_image',
@@ -47,7 +47,7 @@ class CPT {
 			'priority' => 'low'
 		]);
 
-		self::registerMetaBox([
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_social',
 			'title' => 'Social Links',
 			'type' => 'multi',
@@ -67,7 +67,7 @@ class CPT {
 			'priority' => 'high',
 		]);
 
-		self::registerMetaBox([
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_storelinks',
 			'title' => 'Store Links',
 			'type' => 'multi',
@@ -160,10 +160,6 @@ class CPT {
 				),
 			)
 		);
-	}
-
-	static function getKey($tag) {
-		return self::$metakeys[$tag];
 	}
 
 	/**
