@@ -507,20 +507,22 @@ trait CustomMetaboxes {
 				return self::displayField_IMAGEBOX($meta, $value, $options);
 			case 'multi':
 				$sortable = false;
+
+				// Generate a temporary array with all possible keys for a baseline
+				$default = array();
+				foreach($meta->subtypes as $subkey=>$submeta) {
+					$default[$subkey] = "";
+				}
+				$temp_value = array_merge($default, (array) $value);
+				// Order by original value's keys
+				$value = self::orderKeySort($temp_value, array_keys((array) $value));
+
 				if (property_exists($meta, 'sortable') && $meta->sortable === true) {
 					$sortable = true;
-					// Generate a temporary array with all possible keys for a baseline
-					$default = array();
-					foreach($meta->subtypes as $subkey=>$submeta) {
-						$default[$subkey] = "";
-					}
-					$temp_value = array_merge($default, (array) $value);
-					// Order by original value's keys
-					$value = self::orderKeySort($temp_value, array_keys((array) $value));
 				}
 				$options['sortable'] = $sortable;				
 
-				foreach ($value as $subkey=>$subvalue) {
+				foreach ((array) $value as $subkey=>$subvalue) {
 					if (array_key_exists($subkey, $meta->subtypes)) {
 						$submeta = $meta->subtypes[$subkey];
 						$submeta->key = $meta->key . '[' . $submeta->key . ']';
