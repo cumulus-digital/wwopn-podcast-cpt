@@ -14,6 +14,43 @@
 		width: 100%;
 	}
 
+.wpn_meta_autosave p.sortable {
+	background-color: #fff;
+	padding-left: 10px;
+	position: relative;
+	-webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	     -khtml-user-select: none;
+	       -moz-user-select: none;
+	        -ms-user-select: none;
+	            user-select: none; 
+	transition: background-color 1s;
+}
+	.wpn_meta_autosave p.sortable input {
+		user-select: text;
+	}
+	.wpn_meta_autosave p.sortable:before {
+		content: ':';
+		color: #aaa;
+		font-size: 1.5em;
+		font-weight: bold;
+		position: absolute;
+		left: 0;
+		top: calc(50% - .75em);
+	}
+
+	.wpn_meta_autosave p.draggable-mirror {
+		background: #eee;
+		opacity: 1;
+	}
+	.wpn_meta_autosave p.sortable.draggable-source--is-dragging {
+		background-color: #fed;
+		visibility: hidden;
+	}
+		.draggable-source--is-dragging * {
+			/*opacity: 0.4;*/
+		}
+
 .wpn_meta-posttitle p {
 	display: flex;
 	align-items: center;

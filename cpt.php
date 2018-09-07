@@ -98,6 +98,7 @@ class CPT {
 					'title' => 'Google Podcasts',
 				],
 			],
+			'sortable' => true,
 			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
 			'context' => 'normal',
 			'priority' => 'high',
@@ -184,17 +185,37 @@ class CPT {
 		);
 	}
 
+
+	static function getID($pod_id) {
+		if ($pod_id === false) {
+			$pod_id = \get_the_ID();
+		} else if (is_object($pod_id)) {
+			$pod_id = $pod_id->ID;
+		} else if (is_array($pod_id)) {
+			$pod_id = $pod_id['ID'];
+		}
+		return $pod_id;
+	}
+
 	/**
 	 * Retrieve featured image URL for given podcast
-	 * @param  array $pod        podcast
+	 * @param  WP_Post|array|integer  $pod_id        podcast
 	 * @return string|null
 	 */
-	static function getFeaturedImage($pod) {
-		if($pod['featured_media']){
-			$img = \wp_get_attachment_image_src($pod['featured_media'], 'app-thumb');
+	static function getFeaturedImage($pod_id) {
+		$pod_id = self::getID($pod_id);
+		$pod = \get_post($pod_id);
+		if($pod->featured_media){
+			$img = \wp_get_attachment_image_src($pod->featured_media, 'app-thumb');
 			return $img[0];
 		}
 		return null;
+	}
+
+	static function getSocialLinks($pod_id = NULL) {
+		$pod_id = self::getID($pod_id);
+		$socials = \get_post_meta($pod_id, '_wpn_podcast_meta_social', true);
+		return $socials;
 	}
 
 	/**

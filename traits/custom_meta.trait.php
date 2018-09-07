@@ -16,6 +16,10 @@ trait CustomMetaboxes {
 		\add_action('post_submitbox_start', [__CLASS__, 'addPostNonce'], 20, 1);
 	}
 
+	static function enqueueSortableScript() {
+		\wp_enqueue_script( 'sortable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.7/lib/sortable.js');
+	}
+
 	/**
 	 * Add post_nonce to our field
 	 * @param WP_Post $post
@@ -146,12 +150,20 @@ trait CustomMetaboxes {
 				if (! $original) {
 					$original = array();
 				}
-				foreach(self::$metakeys[$key]->subtypes as $subkey=>$subtype) {
-					if (array_key_exists($subkey, $value)) {
+				foreach ($value as $subkey=>$subvalue) {
+					// Verify that we're getting a registered subtype
+					if (array_key_exists($subkey, self::$metakeys[$key]->subtypes)) {
+						$subtype = self::$metakeys[$key]->subtypes[$subkey];
 						$value[$subkey] = self::sanitizeValue($subtype->type, $value[$subkey], $subtype->saveTags, $post_id);
+					} else {
+						unset($value[$subkey]);
 					}
 				}
-				$value = array_merge($original, $value);
+				$newvalue = array_merge($original, $value);
+				if (property_exists(self::$metakeys[$key], 'sortable') && self::$metakeys[$key]->sortable) {
+					$newvalue = self::orderKeySort($newvalue, array_keys($value));
+				}
+				$value = $newvalue;
 			} else {
 				$value = self::sanitizeValue($type, $value, $saveTags, $post_id);
 			}
@@ -164,6 +176,41 @@ trait CustomMetaboxes {
 
 		\delete_post_meta($post_id, $key);
 		return -1;
+	}
+
+	/**
+	 * Sort a multidimensional array by the 'order' key on its items
+	 * @param  array $arr
+	 * @return array
+	 */
+	static function orderSort($arr) {
+
+		uasort($arr, function($a, $b) {
+			if (
+				! is_array($a) || ! is_array($b) ||
+				! array_key_exists('order', $a) || ! array_key_exists('order', $b)
+			) {
+				return 0;
+			}
+			return $a['order'] < $b['order'] ? -1 : 1;
+		});
+		return $arr;
+	}
+
+	/**
+	 * Sort keys of an array against values in an order array
+	 * @param  array $arr
+	 * @param  array $order_keys
+	 * @return array
+	 */
+	static function orderKeySort($arr, $order_keys) {
+		uksort($arr, function($key1, $key2) use ($order_keys) {
+			$pos1 = array_search($key1, $order_keys);
+			$pos2 = array_search($key2, $order_keys);
+			if ($pos1 === $pos2) return 0;
+			return $pos1 < $pos2 ? -1 : 1;
+		});
+		return $arr;
 	}
 
 	/**
@@ -323,6 +370,7 @@ trait CustomMetaboxes {
 			'title' => null,
 			'type' => null,
 			'subtypes' => array(),
+			'sortable' => false,
 			'saveTags' => false,
 			'displayFunc' => function($post, $key, $type) {
 				self::displayMetaBox($post, $key, $type);
@@ -352,7 +400,11 @@ trait CustomMetaboxes {
 			foreach($opts->subtypes as $key=>$subtype) {
 				$opts->subtypes[$key] = (object) array_merge($subtypeDefaults, $subtype);
 			}
-		} 
+		}
+
+		if ($opts->sortable) {
+			\add_action('admin_enqueue_scripts', [__CLASS__, 'enqueueSortableScript']);
+		}
 
 		self::$metakeys[$opts->key] = $opts;
 	}
@@ -413,7 +465,7 @@ trait CustomMetaboxes {
 		$value = \get_post_meta($post->ID, $meta->key, true);
 
 		?>
-		<div class="wpn_meta_autosave <?=$type?>">
+		<div class="wpn_meta_autosave <?=$type?> <?=$meta->sortable ? 'sortable' : ''?>">
 			<?php self::outputType($meta, $value) ?>
 			<?php if ($type == 'multi'): ?>
 				<?=$meta->howto?>
@@ -426,34 +478,53 @@ trait CustomMetaboxes {
 	 * Output the form field for a given meta
 	 * @param  object $meta
 	 * @param  mixed $value Current value of field
+	 * @param  array $options (Optional)
 	 * @return void
 	 */
-	static function outputType($meta, $value) {
+	static function outputType($meta, $value, array $options = array()) {
+		$options = array_merge(
+			array(
+				'sortable' => false,
+			),
+			$options
+		);
 		switch($meta->type) {
 			case 'string':
 			case 'text':
-				return self::displayField_TEXT($meta, $value);
+				return self::displayField_TEXT($meta, $value, $options);
 				break;
 			case 'url':
-				return self::displayField_URL($meta, $value);
+				return self::displayField_URL($meta, $value, $options);
 				break;
 			case 'textarea':
-				return self::displayField_TEXTAREA($meta, $value);
+				return self::displayField_TEXTAREA($meta, $value, $options);
 				break;
 			case 'checkbox':
-				return self::displayField_CHECKBOX($meta, $value);
+				return self::displayField_CHECKBOX($meta, $value, $options);
 				break;
 			case 'featured_image':
-				return self::displayField_IMAGEBOX($meta, $value);
+				return self::displayField_IMAGEBOX($meta, $value, $options);
 			case 'multi':
-				foreach($meta->subtypes as $subkey=>$submeta) {
-					if (is_array($value) && array_key_exists($subkey, $value)) {
-						$subvalue = $value[$subkey];
-					} else {
-						$subvalue = null;
+				$sortable = false;
+				if (property_exists($meta, 'sortable') && $meta->sortable === true) {
+					$sortable = true;
+					// Generate a temporary array with all possible keys for a baseline
+					$default = array();
+					foreach($meta->subtypes as $subkey=>$submeta) {
+						$default[$subkey] = "";
 					}
-					$submeta->key = $meta->key . '[' . $submeta->key . ']';
-					self::outputType($submeta, $subvalue);
+					$temp_value = array_merge($default, (array) $value);
+					// Order by original value's keys
+					$value = self::orderKeySort($temp_value, array_keys((array) $value));
+				}
+				$options['sortable'] = $sortable;				
+
+				foreach ($value as $subkey=>$subvalue) {
+					if (array_key_exists($subkey, $meta->subtypes)) {
+						$submeta = $meta->subtypes[$subkey];
+						$submeta->key = $meta->key . '[' . $submeta->key . ']';
+						self::outputType($submeta, $subvalue, $options);
+					}
 				}
 				return;
 				break;
@@ -461,10 +532,10 @@ trait CustomMetaboxes {
 		throw new \Exception('Attempted to autocreate a metabox with an unsupported type.');
 	}
 
-	static function displayField_TEXT($meta, $value) {
+	static function displayField_TEXT($meta, $value, array $options = array()) {
 		?>
 
-		<p>
+		<p class="<?=$options['sortable'] ? 'sortable' : ''?>">
 			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
 			<input type="text" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="<?=$meta->spellcheck ?>" autocomplete="<?=$meta->autocomplete ?>"
 				<?php if ($meta->required): ?>
@@ -482,10 +553,10 @@ trait CustomMetaboxes {
 		<?php
 	}
 
-	static function displayField_TEXTAREA($meta, $value) {
+	static function displayField_TEXTAREA($meta, $value, array $options = array()) {
 		?>
 
-		<p>
+		<p class="<?=$options['sortable'] ? 'sortable' : ''?>">
 			<label class="screen-reader-text" for="excerpt"><?=esc_html($meta->title) ?></label>
 			<textarea class="wpn-meta-autosave" name="<?=$meta->key?>" style="display:block;width:100%;height:8em;margin:12px 0 0;"
 				<?php if ($meta->required): ?>
@@ -503,10 +574,10 @@ trait CustomMetaboxes {
 		<?php
 	}
 
-	static function displayField_URL($meta, $value) {
+	static function displayField_URL($meta, $value, array $options = array()) {
 		?>
 
-		<p>
+		<p class="<?=$options['sortable'] ? 'sortable' : ''?>">
 			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
 			<input type="url" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="false" autocomplete="off"
 				<?php if ($meta->required): ?>
