@@ -187,7 +187,7 @@ class CPT {
 
 
 	static function getID($pod_id) {
-		if ($pod_id === false) {
+		if ( ! $pod_id) {
 			$pod_id = \get_the_ID();
 		} else if (is_object($pod_id)) {
 			$pod_id = $pod_id->ID;

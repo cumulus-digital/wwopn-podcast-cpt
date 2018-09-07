@@ -6,7 +6,7 @@ trait CustomMetaboxes {
 	static $metakeys = [];
 
 	static function parentInit() {
-		\add_action('add_meta_boxes', [__CLASS__, 'addMetaBoxes']);
+		\add_action('add_meta_boxes_' . PREFIX, [__CLASS__, 'addMetaBoxes'], 10, 1);
 		\add_action('edit_form_after_title', [__CLASS__, 'addPostTitleBoxes'], 10, 1);
 		\add_action('save_post', [__CLASS__, 'saveMetaKeys'], 10, 1);
 		\add_action('wp_ajax_autosave_' . PREFIX . '_meta', [__CLASS__, 'handleAutosave']);
@@ -411,8 +411,9 @@ trait CustomMetaboxes {
 
 	/**
 	 * Create metaboxes for registered keys
+	 * @param WP_POST $post
 	 */
-	static function addMetaBoxes() {
+	static function addMetaBoxes($post) {
 		foreach(self::$metakeys as $meta) {
 			if ($meta->context == 'normal' || $meta->context == 'side' || $meta->context == 'advanced') {
 				\add_meta_box(
@@ -443,7 +444,7 @@ trait CustomMetaboxes {
 
 				?>
 					<div class="wpn_meta_autosave wpn_meta-posttitle">
-						<?php self::displayField_TEXT($meta, $value) ?>
+						<?php self::outputType($meta, $value) ?>
 					</div>
 				<?php
 			}
