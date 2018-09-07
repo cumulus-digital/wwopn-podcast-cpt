@@ -202,7 +202,7 @@ class CPT {
 	 * @param  WP_Post|array|integer  $pod_id        podcast
 	 * @return string|null
 	 */
-	static function getFeaturedImage($pod_id) {
+	static function getFeaturedImage($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
 		$pod = \get_post($pod_id);
 		if($pod->featured_media){
@@ -214,8 +214,22 @@ class CPT {
 
 	static function getSocialLinks($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
-		$socials = \get_post_meta($pod_id, '_wpn_podcast_meta_social', true);
-		return $socials;
+		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_social', true);
+	}
+
+	static function getStoreLinks($pod_id = NULL) {
+		$pod_id = self::getID($pod_id);
+		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_storelinks', true);		
+	}
+
+	static function getPlayerEmbed($pod_id = NULL) {
+		$pod_id = self::getID($pod_id);
+		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_playerembed', true);
+	}
+
+	static function getSubtitle($pod_id = NULL) {
+		$pod_id = self::getID($pod_id);
+		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_subTitle', true);		
 	}
 
 	/**
