@@ -11,7 +11,11 @@ namespace WWOPN_Podcast;
 						<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 					<?php endif ?>
 					<img
-						src="<?=$feature->icon?>"
+						<?php if (defined('HAS_LAZY')): ?>
+							data-src="<?=$feature->icon ?>"
+						<?php else: ?>
+							src="<?=$feature->icon?>"
+						<?php endif ?>
 						<?php if (\is_admin()): ?>
 							data-empty="<?=$feature->empty?>"
 						<?php endif ?>

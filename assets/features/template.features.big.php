@@ -11,7 +11,11 @@
 					<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 				<?php endif ?>
 				<img
-					src="<?=$features[$j]->icon?>"
+					<?php if (defined('HAS_LAZY')): ?>
+						data-src="<?=$features[$j]->icon ?>"
+					<?php else: ?>
+						src="<?=$features[$j]->icon?>"
+					<?php endif ?>
 					<?php if (\is_admin()): ?>
 						data-empty="<?=$features[$j]->empty?>"
 					<?php endif ?>
@@ -28,7 +32,11 @@
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
 						<img
-							src="<?=$features[$j]->icon?>"
+							<?php if (defined('HAS_LAZY')): ?>
+								data-src="<?=$features[$j]->icon ?>"
+							<?php else: ?>
+								src="<?=$features[$j]->icon?>"
+							<?php endif ?>
 							<?php if (\is_admin()): ?>
 								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
@@ -43,7 +51,11 @@
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
 						<img
-							src="<?=$features[$j]->icon?>"
+							<?php if (defined('HAS_LAZY')): ?>
+								data-src="<?=$features[$j]->icon ?>"
+							<?php else: ?>
+								src="<?=$features[$j]->icon?>"
+							<?php endif ?>
 							<?php if (\is_admin()): ?>
 								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
