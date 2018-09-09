@@ -12,7 +12,7 @@ namespace WWOPN_Podcast;
 					<?php endif ?>
 					<img
 						<?php if (defined('HAS_LAZY')): ?>
-							data-src="<?=$feature->icon ?>"
+							src="" data-src="<?=$feature->icon ?>"
 						<?php else: ?>
 							src="<?=$feature->icon?>"
 						<?php endif ?>

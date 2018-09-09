@@ -12,7 +12,7 @@
 				<?php endif ?>
 				<img
 					<?php if (defined('HAS_LAZY')): ?>
-						data-src="<?=$features[$j]->icon ?>"
+						src="" data-src="<?=$features[$j]->icon ?>"
 					<?php else: ?>
 						src="<?=$features[$j]->icon?>"
 					<?php endif ?>
@@ -33,7 +33,7 @@
 						<?php endif ?>
 						<img
 							<?php if (defined('HAS_LAZY')): ?>
-								data-src="<?=$features[$j]->icon ?>"
+								src="" data-src="<?=$features[$j]->icon ?>"
 							<?php else: ?>
 								src="<?=$features[$j]->icon?>"
 							<?php endif ?>
@@ -52,7 +52,7 @@
 						<?php endif ?>
 						<img
 							<?php if (defined('HAS_LAZY')): ?>
-								data-src="<?=$features[$j]->icon ?>"
+								src="" data-src="<?=$features[$j]->icon ?>"
 							<?php else: ?>
 								src="<?=$features[$j]->icon?>"
 							<?php endif ?>
