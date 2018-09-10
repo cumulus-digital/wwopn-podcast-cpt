@@ -52,6 +52,11 @@ class CPT {
 			'title' => 'Social Links',
 			'type' => 'multi',
 			'subtypes' => [
+				'website' => [
+					'key' => 'website',
+					'type' => 'url',
+					'title' => 'Show Website',
+				],
 				'facebook' => [
 					'key' => 'facebook',
 					'type' => 'url',
