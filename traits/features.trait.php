@@ -17,7 +17,7 @@ trait FeaturesTrait {
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'addParentScriptsAndStyles']);
 
 	}
-	
+
 	static function addParentScriptsAndStyles($hook) {
 
 	    $current_screen = \get_current_screen();
@@ -32,14 +32,14 @@ trait FeaturesTrait {
 		\wp_enqueue_script('wp-ajax-response');
 
 		\wp_enqueue_script( 'swappable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.7/lib/swappable.js');
-		\wp_enqueue_script( PREFIX . '_feature_scripts', \plugin_dir_url(__FILE__) . 'assets/features/scripts.admin.js', ['wp-api', 'swappable'] );
-		\wp_enqueue_style( PREFIX . '_feature_styles', \plugin_dir_url(__FILE__) . 'assets/features/styles.css' );
+		\wp_enqueue_script( PREFIX . '_feature_scripts', \plugin_dir_url(BASE_FILENAME) . 'assets/features/scripts.admin.js', ['wp-api', 'swappable'] );
+		\wp_enqueue_style( PREFIX . '_feature_styles', \plugin_dir_url(BASE_FILENAME) . 'assets/features/styles.css' );
 	}
 
 	static function getFeatures(array $ids, int $max = 5, $fill_empties = true) {
 
 		$empty = \is_admin() ?
-						\plugin_dir_url(__FILE__) . 'assets/features/bigx.svg' :
+						\plugin_dir_url(BASE_FILENAME) . 'assets/features/bigx.svg' :
 						'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABdwAAAXcAQMAAAAC+94nAAAAA1BMVEVHcEyC+tLSAAAAAXRSTlMAQObYZgAAASlJREFUeF7twQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfBpTqAABuxiL4QAAAABJRU5ErkJggg==';
 
 		if ($fill_empties) {
@@ -69,7 +69,7 @@ trait FeaturesTrait {
 					)
 				)
 			]));
-			
+
 			if ($raw_features->have_posts()) {
 				$raw_posts = $raw_features->posts;
 				foreach($ids as $index=>$post_id) {

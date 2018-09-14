@@ -11,7 +11,7 @@
 					<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 				<?php endif ?>
 				<img
-					<?php if (defined('HAS_LAZY')): ?>
+					<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
 						src="" data-src="<?=$features[$j]->icon ?>"
 					<?php else: ?>
 						src="<?=$features[$j]->icon?>"
@@ -32,7 +32,7 @@
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
 						<img
-							<?php if (defined('HAS_LAZY')): ?>
+							<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
 								src="" data-src="<?=$features[$j]->icon ?>"
 							<?php else: ?>
 								src="<?=$features[$j]->icon?>"
@@ -51,7 +51,7 @@
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
 						<img
-							<?php if (defined('HAS_LAZY')): ?>
+							<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
 								src="" data-src="<?=$features[$j]->icon ?>"
 							<?php else: ?>
 								src="<?=$features[$j]->icon?>"

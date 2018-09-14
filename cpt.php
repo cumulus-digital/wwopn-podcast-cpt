@@ -21,7 +21,7 @@ class CPT {
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
-	
+
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
 			'title' => 'Sub-Title',
@@ -112,6 +112,26 @@ class CPT {
 			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
 			'context' => 'normal',
 			'priority' => 'high',
+		]);
+
+		self::registerMeta([
+			'key' => '_' . PREFIX . '_meta_podcastrss',
+			'title' => 'Podcast RSS Feeds',
+			'type' => 'multi',
+			'subtypes' => [
+				'itunes' => [
+					'key' => 'itunes',
+					'type' => 'url',
+					'title' => 'iTunes RSS',
+				],
+				'google' => [
+					'key' => 'google',
+					'type' => 'url',
+					'title' => 'Google Play RSS',
+				],
+			],
+			'context' => 'normal',
+			'priority' => 'default',
 		]);
 
 		self::parentInit();
@@ -249,7 +269,7 @@ class CPT {
 
 	static function getSubtitle($pod_id = NULL) {
 		$pod_id = self::getID($pod_id);
-		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_subTitle', true);		
+		return \get_post_meta($pod_id, '_' . PREFIX . '_meta_subTitle', true);
 	}
 
 	/**
@@ -266,7 +286,7 @@ class CPT {
 			return;
 		}
 
-		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(__FILE__) . 'assets/editor/scripts.js', ['wp-util'] );
+		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(BASE_FILENAME) . 'assets/editor/scripts.js', ['wp-util'] );
 
 		// Set up AJAX for editor script
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
@@ -275,8 +295,8 @@ class CPT {
 			'nonce' => wp_create_nonce('ajax_nonce'),
 		);
 		\wp_localize_script( PREFIX . '_editor_scripts', 'wpn_ajax_object', $params);
-		
-		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(__FILE__) . 'assets/editor/styles.css' );
+
+		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(BASE_FILENAME) . 'assets/editor/styles.css' );
 	}
 
 	/**

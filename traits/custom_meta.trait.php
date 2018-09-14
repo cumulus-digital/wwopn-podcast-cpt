@@ -259,7 +259,7 @@ trait CustomMetaboxes {
 		if ( ! isOurPost($_POST['post_ID'])) {
 			\wp_send_json(['success' => false, 'msg' => PREFIX . ' autosave called outsite of ' . PREFIX]);
 		}
-		
+
 		$affected = [];
 		$success = true;
 		foreach($_POST as $key=>$value) {
@@ -520,7 +520,7 @@ trait CustomMetaboxes {
 				if (property_exists($meta, 'sortable') && $meta->sortable === true) {
 					$sortable = true;
 				}
-				$options['sortable'] = $sortable;				
+				$options['sortable'] = $sortable;
 
 				foreach ((array) $value as $subkey=>$subvalue) {
 					if (array_key_exists($subkey, $meta->subtypes)) {

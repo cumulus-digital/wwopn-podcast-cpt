@@ -51,7 +51,7 @@ function plugin_activation() {
 \register_activation_hook( __FILE__, __NAMESPACE__ . '\plugin_activation');
 
 /**
- * Ensure a permalink structure exists, 
+ * Ensure a permalink structure exists,
  * otherwise display an error on all admin pages
  */
 function plugin_checkPermalinks() {

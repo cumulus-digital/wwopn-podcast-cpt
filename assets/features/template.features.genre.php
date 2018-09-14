@@ -8,10 +8,10 @@ namespace WWOPN_Podcast;
 				<a class="wpn-feature" href="<?=$feature->permalink?>">
 					<?php if (\is_admin()): ?>
 						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
-						<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
+						<span class="wpn-f-clear" title="Clear this box"><span class="screen-reader-text">Clear this box.</span></span>
 					<?php endif ?>
 					<img
-						<?php if (defined('HAS_LAZY')): ?>
+						<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
 							src="" data-src="<?=$feature->icon ?>"
 						<?php else: ?>
 							src="<?=$feature->icon?>"
