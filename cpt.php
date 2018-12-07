@@ -19,6 +19,7 @@ class CPT {
 		\add_action('rest_api_init', [__CLASS__, 'rest_register_featuredimage']);
 
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
+		\add_filter('use_block_editor_for_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
 
