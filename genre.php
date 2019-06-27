@@ -61,6 +61,7 @@ class Genre {
 				),
 				'meta_box_cb' => [__CLASS__, 'editor_feature_addInstructions'],
 				'hierarchical' => true,
+				'tax_position' => true,
 				'rewrite' => array('slug' => self::$slug, 'with_front' => false),
 				'show_in_rest' => true,
 				'show_admin_column' => true,
