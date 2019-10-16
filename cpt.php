@@ -57,17 +57,26 @@ class CPT {
 					'key' => 'website',
 					'type' => 'url',
 					'title' => 'Show Website',
+					'order' => 1,
 				],
 				'facebook' => [
 					'key' => 'facebook',
 					'type' => 'url',
 					'title' => 'Facebook URL',
+					'order' => 2,
 				],
 				'twitter' => [
 					'key' => 'twitter',
-					'type' => 'string',
+					'type' => 'url',
 					'title' => 'Twitter URL',
-				]
+					'order' => 3,
+				],
+				'instagram' => [
+					'key' => 'instagram',
+					'type' => 'url',
+					'title' => 'Instagram URL',
+					'order' => 4,
+				],
 			],
 			'context' => 'normal',
 			'priority' => 'high',
