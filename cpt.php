@@ -23,6 +23,8 @@ class CPT {
 
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
 
+		\add_filter( 'admin_post_thumbnail_html', [__CLASS__, 'editor_featuredImageHowTo']);
+
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
 			'title' => 'Sub-Title',
@@ -307,6 +309,18 @@ class CPT {
 		\wp_localize_script( PREFIX . '_editor_scripts', 'wpn_ajax_object', $params);
 
 		\wp_enqueue_style( PREFIX . '_editor_styles', \plugin_dir_url(BASE_FILENAME) . 'assets/editor/styles.css' );
+	}
+
+	/**
+	 * Display a helpful tip in Podcast Icon metabox.
+	 * @param  string $html
+	 * @return string
+	 */
+	static function editor_featuredImageHowTo($html) {
+		if (\get_post_type() === PREFIX) {
+			return $html . '<label class="howto"><strong>Tip:</strong> Create the Podcast Icon at 1200x1200 pixels, and save it as a JPG at very low quality to reduce the file size as much as possible. The lower quality will not be evident at the smaller display size.</label>';
+		}
+		return $html;
 	}
 
 	/**
