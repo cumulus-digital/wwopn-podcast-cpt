@@ -94,7 +94,7 @@
 		display: inline-block;
 	}
 .meta_extraimage .meta_extraimage-remove,
-.meta_extraimage .howto {
+.meta_extraimage .click_to_edit {
 	display: none;
 }
 	.meta_extraimage.has_image .meta_extraimage-add {
@@ -103,6 +103,6 @@
 	.meta_extraimage.has_image .meta_extraimage-remove {
 		display: inline;
 	}
-	.meta_extraimage.has_image .howto {
+	.meta_extraimage.has_image .click_to_edit {
 		display: block;
 	}

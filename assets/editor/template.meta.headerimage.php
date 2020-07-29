@@ -8,7 +8,7 @@
 >
 	<?=$image?>
 
-	<p class="hide-if-no-js howto">
+	<p class="hide-if-no-js click_to_edit">
 		Click the image to edit or update
 	</p>
 	<p class="hide-if-no-js meta_extraimage-functions">
@@ -19,6 +19,9 @@
 			<?=esc_html__('Set ' . $meta->title)?>
 		</a>
 	</p>
+	<?php if ($meta->howto): ?>
+		<label class="howto"><?=$meta->howto ?></label>
+	<?php endif ?>
 	<input type="hidden" id="<?=$meta->key?>" class="image_id" name="<?=$meta->key?>" value="<?=($value) ? \esc_attr($value) : '' ?>">
 
 </div>

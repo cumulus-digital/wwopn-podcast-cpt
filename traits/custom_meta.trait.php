@@ -549,7 +549,7 @@ trait CustomMetaboxes {
 				<?php endif ?>
 			>
 			<?php if ($meta->howto): ?>
-				<?=$meta->howto ?>
+				<label class="howto"><?=$meta->howto ?></label>
 			<?php endif ?>
 		</p>
 
@@ -570,7 +570,7 @@ trait CustomMetaboxes {
 				<?php endif ?>
 			><?=esc_textarea($value) ?></textarea>
 			<?php if ($meta->howto): ?>
-				<?=$meta->howto ?>
+				<label class="howto"><?=$meta->howto ?></label>
 			<?php endif ?>
 		</p>
 
@@ -591,7 +591,7 @@ trait CustomMetaboxes {
 				<?php endif ?>
 			>
 			<?php if ($meta->howto): ?>
-				<?=$meta->howto ?>
+				<label class="howto"><?=$meta->howto ?></label>
 			<?php endif ?>
 		</p>
 

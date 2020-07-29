@@ -12,6 +12,9 @@ class CPT {
 	static $metakeys = [];
 	static $meta_save_callbacks = [];
 
+	// Image size limit
+	static $image_size_limit = '2mB';
+
 	static function init() {
 
 		\add_action('init', [__CLASS__, 'register']);
@@ -21,9 +24,11 @@ class CPT {
 		\add_filter('gutenberg_can_edit_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 		\add_filter('use_block_editor_for_post_type', [__CLASS__, 'editor_disableGutenberg'], 10, 2);
 
+		\add_filter('wp_handle_upload_prefilter', [__CLASS__, 'editor_limitFeaturedImageSize']);
+
 		\add_action('admin_enqueue_scripts', [__CLASS__, 'editor_loadScriptsAndStyles']);
 
-		\add_filter( 'admin_post_thumbnail_html', [__CLASS__, 'editor_featuredImageHowTo']);
+		\add_filter('admin_post_thumbnail_html', [__CLASS__, 'editor_featuredImageHowTo']);
 
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
@@ -45,9 +50,10 @@ class CPT {
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_headerimage',
 			'title' => 'Header Image',
+			'howto' => '<strong>Header image must be less than ' . self::$image_size_limit . '.</strong>',
 			'type' => 'featured_image',
 			'context' => 'side',
-			'priority' => 'low'
+			'priority' => 'low',
 		]);
 
 		self::registerMeta([
@@ -173,10 +179,10 @@ class CPT {
 					'search_items'          => esc_html__( 'Search Podcast Pages' ),
 					'not_found'             => esc_html__( 'No Podcast Pages found' ),
 					'not_found_in_trash'    => esc_html__( 'No Podcast Pages found in Trash' ),
-					'featured_image'        => esc_html__( 'Podcast Icon' ),
-					'set_featured_image'    => esc_html__( 'Set Podcast Icon' ),
-					'remove_featured_image' => esc_html__( 'Remove Podcast Icon' ),
-					'use_featured_image'    => esc_html__( 'Use as Podcast Icon' )
+					'featured_image'        => esc_html__( 'Cover Art' ),
+					'set_featured_image'    => esc_html__( 'Set Podcast Cover Art' ),
+					'remove_featured_image' => esc_html__( 'Remove Podcast Cover Art' ),
+					'use_featured_image'    => esc_html__( 'Use as Podcast Cover Art' )
 				),
 				'description'           => 'Landing pages for podcasts.',
 				'public'                => true,
@@ -312,13 +318,13 @@ class CPT {
 	}
 
 	/**
-	 * Display a helpful tip in Podcast Icon metabox.
+	 * Display a helpful tip in Podcast Cover Art metabox.
 	 * @param  string $html
 	 * @return string
 	 */
 	static function editor_featuredImageHowTo($html) {
 		if (\get_post_type() === PREFIX) {
-			return $html . '<label class="howto"><strong>Tip:</strong> Create the Podcast Icon at 1200x1200 pixels, and save it as a JPG at very low quality to reduce the file size as much as possible. The lower quality will not be evident at the smaller display size.</label>';
+			return $html . '<label class="howto"><strong>Cover art must be less than ' . self::$image_size_limit . '.</strong><br><br><strong>Tip:</strong> Create the cover art image at 1200x1200 pixels and save it as a JPG <em>at very low quality</em> to reduce the file size as much as possible. The lower quality artifacts will get smoothed out when the image is displayed at smaller dimensions.</label>';
 		}
 		return $html;
 	}
@@ -335,6 +341,52 @@ class CPT {
 		}
 
 		return $is_enabled;
+	}
+
+	/**
+	 * Convert a string representation of file size to bytes
+	 * @param  string $from
+	 * @return int
+	 */
+	static function convertToBytes(string $from): ?int {
+		$units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+		$number = substr($from, 0, -2);
+		$suffix = strtoupper(substr($from,-2));
+
+	    //B or no suffix
+		if(is_numeric(substr($suffix, 0, 1))) {
+			return preg_replace('/[^\d]/', '', $from);
+		}
+
+		$exponent = array_flip($units)[$suffix] ?? null;
+		if($exponent === null) {
+			return null;
+		}
+
+		return $number * (1024 ** $exponent);
+	}
+
+	/**
+	 * Limit file size for Featured Images
+	 * @param array $file
+	 * @return array
+	 */
+	static function editor_limitFeaturedImageSize($file) {
+		// Only handle our own images
+		if (
+			strpos($file['type'], 'image') !== false &&
+			isset($_REQUEST['post_id'])
+		) {
+			$post_id = self::getID(filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT));
+			if (\get_post_type($post_id) === PREFIX) {
+				$size = filter_var($file['size'], FILTER_SANITIZE_NUMBER_INT);
+				if ($size > self::convertToBytes(self::$image_size_limit)) {
+					$file['error'] = 
+						'Podcast images must be less than ' . self::$image_size_limit . '.';
+				}
+			}
+		}
+		return $file;
 	}
 
 }
