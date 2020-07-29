@@ -348,7 +348,7 @@ class CPT {
 	 * @param  string $from
 	 * @return int
 	 */
-	static function convertToBytes(string $from): ?int {
+	static function convertToBytes(string $from) {
 		$units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 		$number = substr($from, 0, -2);
 		$suffix = strtoupper(substr($from,-2));
