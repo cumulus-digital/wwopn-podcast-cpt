@@ -6,7 +6,7 @@ namespace WWOPN_Podcast;
 
 function shortcode_feature_big() {
 	$key = PREFIX . '_features';
-	
+
 	$feature_ids = \get_option(
 		BigFeature::$option_key,
 		array_fill(0,9,0)
@@ -32,7 +32,7 @@ function shortcode_feature_genre($attr) {
 	}
 
 	$key = PREFIX . '_features';
-	
+
 	$genre = \get_term($attr['genre_id']);
 	if (\is_wp_error($genre)) {
 		return 'Requested a genre which does not exist.';
@@ -65,9 +65,9 @@ function shortcode_feature_genre($attr) {
 function shortcode_embedCode($attr) {
 	$atts = \shortcode_atts( array(
 		'post' => 0,
-	), $atts, 'podcast-embed');
+	), $attr, 'podcast-embed');
 
-	$id = $atts['post'];
+	$id = $attr['post'];
 	if ($id == '0') return 'Please provide a post ID.';
 
 	$key = CPT::$metakeys['playerEmbed'];
