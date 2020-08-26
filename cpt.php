@@ -30,6 +30,8 @@ class CPT {
 
 		\add_filter('admin_post_thumbnail_html', [__CLASS__, 'editor_featuredImageHowTo']);
 
+		\add_action( 'pre_get_posts', [__CLASS__, 'public_sortOrder'], 1, 1 );
+
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
 			'title' => 'Sub-Title',
@@ -387,6 +389,26 @@ class CPT {
 			}
 		}
 		return $file;
+	}
+
+	/**
+	 * Force archives of this CPT to display all and sort by title
+	 *
+	 * @param \WP_Query $query
+	 * @return void
+	 */
+	static function public_sortOrder($query) {
+		if (\is_admin() || ! $query->is_main_query()) {
+			return;
+		}
+		if ( ! $query->is_post_type_archive(PREFIX)) {
+			return;
+		}
+		if (\is_singular()) {
+			return;
+		}
+		//$query->set('posts_per_page', -1);
+		$query->set('orderby', array('title' => 'ASC'));
 	}
 
 }

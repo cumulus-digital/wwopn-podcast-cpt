@@ -15,8 +15,7 @@ class Tag {
 
 		\add_action('init', [__CLASS__, 'register']);
 
-		// Make public taxonomy page list all posts in tax
-		\add_filter('pre_get_posts', [__CLASS__, 'public_getAllPosts'], 1, 1);
+		\add_action('pre_get_posts', [__CLASS__, 'public_sortOrder'], 1, 1 );
 
 	}
 
@@ -82,6 +81,25 @@ class Tag {
 		return;
 	}
 
+	/**
+	 * Force archives of this CPT to display all and sort by title
+	 *
+	 * @param \WP_Query $query
+	 * @return void
+	 */
+	static function public_sortOrder($query) {
+		if (\is_admin() || ! $query->is_main_query()) {
+			return;
+		}
+		if ( ! is_tax(self::$prefix)) {
+			return;
+		}
+		if (\is_singular()) {
+			return;
+		}
+		$query->set('posts_per_page', -1);
+		$query->set('orderby', array('title' => 'ASC'));
+	}
 
 }
 
