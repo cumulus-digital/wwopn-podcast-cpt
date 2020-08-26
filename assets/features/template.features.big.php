@@ -5,7 +5,7 @@
 	<?php for ($i = 0, $j = 0; $i < 3; $i++): ?>
 	<ul class="wpn-f-container">
 		<li class="wpn-f-big">
-			<a class="wpn-feature" href="<?=$features[$j]->permalink?>">
+			<a class="wpn-feature" href="<?=$features[$j]->permalink?>" title="<?=\esc_attr($features[$j]->post_title) ?>">
 				<?php if (\is_admin()): ?>
 					<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 					<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
@@ -19,6 +19,7 @@
 					<?php if (\is_admin()): ?>
 						data-empty="<?=$features[$j]->empty?>"
 					<?php endif ?>
+					alt="<?=\esc_attr($features[$j]->post_title) ?>"
 				>
 				<?php $j++ ?>
 			</a>
@@ -26,7 +27,7 @@
 		<li class="wpn-f-cluster">
 			<ul>
 				<li class="wpn-f-small">
-					<a class="wpn-feature" href="<?=$features[$j]->permalink?>">
+					<a class="wpn-feature" href="<?=$features[$j]->permalink?>" title="<?=\esc_attr($features[$j]->post_title) ?>">
 						<?php if (\is_admin()): ?>
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
@@ -40,12 +41,13 @@
 							<?php if (\is_admin()): ?>
 								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
+							alt="<?=\esc_attr($features[$j]->post_title) ?>"
 						>
 						<?php $j++ ?>
 					</a>
 				</li>
 				<li class="wpn-f-small">
-					<a class="wpn-feature" href="<?=$features[$j]->permalink?>">
+					<a class="wpn-feature" href="<?=$features[$j]->permalink?>" title="<?=\esc_attr($features[$j]->post_title) ?>">
 						<?php if (\is_admin()): ?>
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
@@ -59,6 +61,7 @@
 							<?php if (\is_admin()): ?>
 								data-empty="<?=$features[$j]->empty?>"
 							<?php endif ?>
+							alt="<?=\esc_attr($features[$j]->post_title) ?>"
 						>
 						<?php $j++ ?>
 					</a>

@@ -5,7 +5,7 @@ namespace WWOPN_Podcast;
 	<ul class="wpn-f-container">
 		<?php foreach($features as $j=>$feature): ?>
 			<li>
-				<a class="wpn-feature" href="<?=$feature->permalink?>">
+				<a class="wpn-feature" href="<?=$feature->permalink?>" title="<?=\esc_attr($features[$j]->post_title) ?>">
 					<?php if (\is_admin()): ?>
 						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
 						<span class="wpn-f-clear" title="Clear this box"><span class="screen-reader-text">Clear this box.</span></span>
@@ -19,6 +19,7 @@ namespace WWOPN_Podcast;
 						<?php if (\is_admin()): ?>
 							data-empty="<?=$feature->empty?>"
 						<?php endif ?>
+						alt="<?=\esc_attr($features[$j]->post_title) ?>"
 					>
 				</a>
 			</li>

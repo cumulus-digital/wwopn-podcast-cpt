@@ -48,6 +48,7 @@ trait FeaturesTrait {
 				(object) [
 					'id' => null,
 					'permalink' => '#',
+					'post_title' => null,
 					'icon' => $empty,
 					'empty' => $empty,
 				]
@@ -84,6 +85,7 @@ trait FeaturesTrait {
 						$thumb_id = (int) \get_post_thumbnail_id($has_post->ID);
 						$features[$index] = (object) [
 							'id' => $has_post->ID,
+							'post_title' => $has_post->post_title,
 							'permalink' => \get_post_permalink($has_post->ID),
 							'icon' => \wp_get_attachment_url($thumb_id),
 							'empty' => $empty,
