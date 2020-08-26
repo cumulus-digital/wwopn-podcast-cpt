@@ -22,4 +22,6 @@
 		</p>
 	</form>
 
+	<p>Shortcode: <strong>[podcasts-big]</strong></p>
+
 </div>

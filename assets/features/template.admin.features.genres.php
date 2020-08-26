@@ -57,5 +57,7 @@
 
 		</form>
 
+		<p>Shortcode: <strong>[podcasts-genre genre_id=<?php echo $genre->term_id ?>]</strong></p>
+
 	<?php endif; ?>
 </div>
