@@ -113,7 +113,7 @@
 			-webkit-box-direction: normal;
 			    -ms-flex-direction: column;
 			        flex-direction: column;
-			padding-bottom: 2vw;
+			/*padding-bottom: 2vw;*/
 		}
 	}
 	@media (max-width: 1030px) {
