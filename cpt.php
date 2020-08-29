@@ -166,7 +166,7 @@ class CPT {
 		\register_post_type( PREFIX, // Register Custom Post Type
 			array(
 				'labels'       => array(
-					'name'                  => esc_html__( 'Podcast Pages' ),
+					'name'                  => esc_html__( 'Podcasts' ),
 					'singular_name'         => esc_html__( 'Podcast Page' ),
 					'menu_name'             => esc_html__( 'Podcasts' ),
 					'name_admin_bar'        => esc_html__( 'Podcast' ),
