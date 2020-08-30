@@ -118,7 +118,7 @@
 	}
 	@media (max-width: 1030px) {
 		.wpn-f-bfg a {
-			margin: 1px;
+			margin: 0;
 		}
 		.wpn-f-bfg a:hover {
 			border: none;
