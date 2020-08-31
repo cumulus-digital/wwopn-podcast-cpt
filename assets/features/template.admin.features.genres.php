@@ -68,6 +68,7 @@
 				[podcasts-genre slug=<?php echo $genre->slug ?>]
 			</li>
 		</ul>
+		<p><strong>Note:</strong> using slugs may break if the genre's slug changes!</p>
 
 	<?php endif; ?>
 </div>
