@@ -5,6 +5,7 @@ namespace WWOPN_Podcast;
 	<ul class="wpn-f-container">
 		<?php foreach($features as $j=>$feature): ?>
 			<li>
+				<?php if ($feature->id || \is_admin()): ?>
 				<a class="wpn-feature" href="<?=$feature->permalink?>" title="<?=\esc_attr($features[$j]->post_title) ?>">
 					<?php if (\is_admin()): ?>
 						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
@@ -22,6 +23,7 @@ namespace WWOPN_Podcast;
 						alt="<?=\esc_attr($features[$j]->post_title) ?>"
 					>
 				</a>
+				<?php endif ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>

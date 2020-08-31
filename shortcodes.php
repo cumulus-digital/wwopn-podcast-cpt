@@ -59,6 +59,7 @@ function shortcode_feature_genre($attr) {
 			'id' => null,
 			'permalink' => null,
 			'icon' => null,
+			'post_title' => null
 		)
 	);
 
