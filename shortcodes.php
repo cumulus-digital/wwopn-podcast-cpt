@@ -24,21 +24,29 @@ function shortcode_feature_big() {
 
 function shortcode_feature_genre($attr) {
 	$attr = \shortcode_atts([
-		'genre_id' => 0
+		'id' => 0,
+		'slug' => null
 	], $attr, 'podcasts-genre');
 
-	if ( ! $attr['genre_id']) {
-		return 'No Genre ID specified in shortcode.';
+	$field = 'term_id';
+	$query = $attr['id'];
+	if ( ! $attr['id'] && $attr['slug']) {
+		$field = 'slug';
+		$query = $attr['slug'];
+	}
+
+	if ( ! $query) {
+		return 'No Genre ID or slug specified in shortcode.';
 	}
 
 	$key = PREFIX . '_features';
 
-	$genre = \get_term($attr['genre_id']);
+	$genre = \get_term_by($field, $query, PREFIX . '_genre');
 	if (\is_wp_error($genre)) {
 		return 'Requested a genre which does not exist.';
 	}
 
-	$feature_ids = \get_term_meta($attr['genre_id'], GenreFeature::$option_key, true);
+	$feature_ids = \get_term_meta($genre->term_id, GenreFeature::$option_key, true);
 
 	if (!$feature_ids) {
 		return;

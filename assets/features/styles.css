@@ -23,6 +23,13 @@
 	    -webkit-font-smoothing: antialiased;
 	    -moz-osx-font-smoothing: grayscale;
 	}
+.wpn-genre-shortcode_options {
+	list-style: disc;
+	margin-left: 1em;
+}
+	.wpn-genre-shortcode_options li {
+		margin-bottom: .5em;
+	}
 
 .wpn-features .draggable-mirror {
 	-webkit-box-shadow: 0 0 2em rgba(0,0,0,0.4);

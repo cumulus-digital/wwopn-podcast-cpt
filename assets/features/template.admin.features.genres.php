@@ -57,7 +57,17 @@
 
 		</form>
 
-		<p>Shortcode: <strong>[podcasts-genre genre_id=<?php echo $genre->term_id ?>]</strong></p>
+		<p>
+			Shortcode Options <strong>(Use one, not both!)</strong>:
+		</p>
+		<ul class="wpn-genre-shortcode_options">
+			<li>
+				[podcasts-genre id=<?php echo $genre->term_id ?>]
+			</li>
+			<li>
+				[podcasts-genre slug=<?php echo $genre->slug ?>]
+			</li>
+		</ul>
 
 	<?php endif; ?>
 </div>
