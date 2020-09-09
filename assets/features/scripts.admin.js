@@ -103,6 +103,9 @@
 			var post_id = selected.val();
 			window.findPosts.close();
 
+			$position = $($find_post_form.data('feature_item'));
+			$position.css('opacity', 0.3);
+
 			// Retrieve post info
 			var request = jQuery.ajax({
 			        url : '/wp-json/wp/v2/podcasts/'+post_id,
@@ -111,14 +114,23 @@
 			        data: { 'featured_media': true }
 			    })
 				.done(function(data){
-					// Update feature with post data
-					$position = $($find_post_form.data('feature_item'));
-					$('img', $position).attr(
-						'src',
-						data.featured_media_url
-					);
-					$('input', $position).attr('value', data.id).val(data.id);
-					$feature_post_form.data('changed', true);
+					if (data && data.link && data.title && data.title.rendered && data.featured_media_url) {
+						// Update feature with post data
+						$position = $($find_post_form.data('feature_item'));
+						$position.attr({
+							'href': data.link,
+							'title': data.title.rendered
+						});
+						$('img', $position).attr({
+							'src': data.featured_media_url,
+							'alt': data.title.rendered
+						});
+						$('input', $position).attr('value', data.id).val(data.id);
+						$position.css('opacity', 1);
+						$feature_post_form.data('changed', true);
+					} else {
+						alert('Error retrieving podcast data!');
+					}
 				});
 		});
 

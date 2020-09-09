@@ -16,7 +16,7 @@
 	#find-posts .media-modal-close {
 		height: 100%;
 	}
-	#find-posts .media-modal-close .media-modal-icon:before {
+	#find-posts .media-modal-close .media-modal-icon::before {
 	    font: 400 20px/1 dashicons;
 	    speak: none;
 	    vertical-align: middle;
@@ -39,15 +39,28 @@
 
 .wpn-f-clear {
 	position: absolute;
-	top: 5%;
-	right: 5%;
+	top: 0;
+	right: 0;
 	z-index: 10;
+	padding: 3%;
 }
-	.wpn-f-clear:before {
+	.wpn-f-clear::before {
 		color: #fff;
 		content: "\f153";
 		font: 400 16px/20px dashicons;
-		text-shadow: 0 0 1em rgba(0,0,0,0.5);
+		text-shadow:
+			-1px -1px #000,
+			   0 -1px #000,
+			 1px -1px #000,
+			 1px    0 #000,
+			 1px  1px #000,
+			   0  1px #000,
+			-1px  1px #000,
+			-1px    0 #000,
+			0 0 1em rgba(0,0,0,0.6);
+	}
+	.wpn-f-clear:hover::before {
+		color: red;
 	}
 	input[value=""] + .wpn-f-clear {
 		display: none;

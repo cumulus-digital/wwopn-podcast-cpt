@@ -235,7 +235,6 @@ class CPT {
 		);
 	}
 
-
 	static function getID($pod_id) {
 		if ( ! $pod_id) {
 			$pod_id = \get_the_ID();
@@ -252,11 +251,15 @@ class CPT {
 	 * @param  WP_Post|array|integer  $pod_id        podcast
 	 * @return string|null
 	 */
-	static function getFeaturedImage($pod_id = NULL) {
-		$pod_id = self::getID($pod_id);
-		$pod = \get_post($pod_id);
-		if($pod->featured_media){
-			$img = \wp_get_attachment_image_src($pod->featured_media, 'app-thumb');
+	static function getFeaturedImage($pod) {
+		if ( ! array_key_exists('featured_media', $pod) && array_key_exists('ID', $pod)) {
+			$pod_id = self::getID($pod);
+			$pod = \get_post($pod_id, ARRAY_A);
+			$thumb_id = \get_post_thumbnail_id($pod['ID']);
+			$pod['featured_media'] = $thumb_id;
+		}
+		if(array_key_exists('featured_media', $pod)){
+			$img = \wp_get_attachment_image_src($pod['featured_media'], 'app-thumb');
 			return $img[0];
 		}
 		return null;
