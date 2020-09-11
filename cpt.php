@@ -13,7 +13,7 @@ class CPT {
 	static $meta_save_callbacks = [];
 
 	// Image size limit
-	static $image_size_limit = '2mB';
+	static $image_size_limit = '1mB';
 
 	static function init() {
 
