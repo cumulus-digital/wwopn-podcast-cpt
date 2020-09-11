@@ -32,6 +32,11 @@ class CPT {
 
 		\add_action( 'pre_get_posts', [__CLASS__, 'public_sortOrder'], 1, 1 );
 
+		\add_filter('jetpack_sitemap_post_types', function($post_types) {
+			$post_types[] = PREFIX;
+			return $post_types;
+		});
+
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_subTitle',
 			'title' => 'Sub-Title',
