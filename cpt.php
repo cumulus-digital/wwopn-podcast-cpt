@@ -102,10 +102,25 @@ class CPT {
 			'title' => 'Store Links',
 			'type' => 'multi',
 			'subtypes' => [
+				'amazon' => [
+					'key' => 'amazon',
+					'type' => 'url',
+					'title' => 'Amazon Music',
+				],
 				'apple' => [
 					'key' => 'apple',
 					'type' => 'url',
 					'title' => 'Apple Podcasts',
+				],
+				'daily-wire' => [
+					'key' => 'daily-wire',
+					'type' => 'url',
+					'title' => 'The Daily Wire',
+				],
+				'google' => [
+					'key' => 'google',
+					'type' => 'url',
+					'title' => 'Google Podcasts',
 				],
 				'stitcher' => [
 					'key' => 'stitcher',
@@ -121,17 +136,7 @@ class CPT {
 					'key' => 'spotify',
 					'type' => 'url',
 					'title' => 'Spotify',
-				],
-				'google' => [
-					'key' => 'google',
-					'type' => 'url',
-					'title' => 'Google Podcasts',
-				],
-				'daily-wire' => [
-					'key' => 'daily-wire',
-					'type' => 'url',
-					'title' => 'The Daily Wire',
-				],
+				]
 			],
 			'sortable' => true,
 			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
