@@ -136,7 +136,17 @@ class CPT {
 					'key' => 'spotify',
 					'type' => 'url',
 					'title' => 'Spotify',
-				]
+				],
+				'pandora' => [
+					'key' => 'pandora',
+					'type' => 'url',
+					'title' => 'Pandora',
+				],
+				'siriusxm' => [
+					'key' => 'siriusxm',
+					'type' => 'url',
+					'title' => 'SiriusXM',
+				],
 			],
 			'sortable' => true,
 			'howto' => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
