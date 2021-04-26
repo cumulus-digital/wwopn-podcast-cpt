@@ -22,6 +22,6 @@
 		</p>
 	</form>
 
-	<p>Shortcode: <strong>[podcasts-big]</strong></p>
+	<p>Shortcode: <strong>[podcasts-feature-big]</strong></p>
 
 </div>

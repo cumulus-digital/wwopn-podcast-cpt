@@ -20,7 +20,7 @@ function shortcode_feature_big() {
 
 	return $output;
 }
-\add_shortcode('podcasts-big', __NAMESPACE__ . '\shortcode_feature_big');
+\add_shortcode('podcasts-feature-big', __NAMESPACE__ . '\shortcode_feature_big');
 
 function shortcode_feature_genre($attr) {
 	$attr = \shortcode_atts([
@@ -69,7 +69,7 @@ function shortcode_feature_genre($attr) {
 
 	return $output;
 }
-\add_shortcode('podcasts-genre', __NAMESPACE__ . '\shortcode_feature_genre');
+\add_shortcode('podcasts-feature-genre', __NAMESPACE__ . '\shortcode_feature_genre');
 
 function shortcode_embedCode($attr) {
 	$atts = \shortcode_atts( array(

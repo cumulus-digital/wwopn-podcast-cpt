@@ -62,10 +62,10 @@
 		</p>
 		<ul class="wpn-genre-shortcode_options">
 			<li>
-				[podcasts-genre id=<?php echo $genre->term_id ?>]
+				[podcasts-feature-genre id=<?php echo $genre->term_id ?>]
 			</li>
 			<li>
-				[podcasts-genre slug=<?php echo $genre->slug ?>]
+				[podcasts-feature-genre slug=<?php echo $genre->slug ?>]
 			</li>
 		</ul>
 		<p><strong>Note:</strong> using slugs may break if the genre's slug changes!</p>
