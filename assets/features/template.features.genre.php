@@ -11,17 +11,7 @@ namespace WWOPN_Podcast;
 						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
 						<span class="wpn-f-clear" title="Clear this box"><span class="screen-reader-text">Clear this box.</span></span>
 					<?php endif ?>
-					<img
-						<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
-							src="" data-src="<?=$feature->icon ?>"
-						<?php else: ?>
-							src="<?=$feature->icon?>"
-						<?php endif ?>
-						<?php if (\is_admin()): ?>
-							data-empty="<?=$feature->empty?>"
-						<?php endif ?>
-						alt="<?=\esc_attr($features[$j]->post_title) ?>"
-					>
+					<?=\apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );?>
 				</a>
 				<?php endif ?>
 			</li>
