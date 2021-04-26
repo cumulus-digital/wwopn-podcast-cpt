@@ -11,7 +11,7 @@ namespace WWOPN_Podcast;
 						<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
 						<span class="wpn-f-clear" title="Clear this box"><span class="screen-reader-text">Clear this box.</span></span>
 					<?php endif ?>
-					<?=\apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );?>
+					<?=\get_the_post_thumbnail($feature->id, 'full', ['alt' => \esc_attr($feature->post_title)])?>
 				</a>
 				<?php endif ?>
 			</li>
