@@ -133,6 +133,7 @@
 	:root .wpn-features img {
 		display: block;
 		width: 100%;
+		height: auto;
 		position: relative;
 	}
 
@@ -271,5 +272,20 @@
 		}
 		:root .wpn-f-genre li {
 			width: 50%;
+		}
+	}
+	:root .wpn-f-genre.wpn-f-genre-all ul {
+		display: block;
+		margin-right: -.5%;
+		font-size: 0;
+	}
+		:root .wpn-f-genre.wpn-f-genre-all li {
+			display: inline-block;
+			max-width: 9.5%;
+			margin: 0 .5% .5% 0;
+		}
+	@media (max-width: 800px) {
+		:root .wpn-f-genre.wpn-f-genre-all li {
+			max-width: 19.5%;
 		}
 	}
