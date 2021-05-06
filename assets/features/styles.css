@@ -115,19 +115,17 @@
 					-webkit-tap-highlight-color: rgba(0,0,0,0);
 				}
 				:root body:not(.wp-admin) .wpn-features a:active {
-					border: 1px solid rgba(0,0,0,1);
 					z-index: 2;
 					transform: scale(1.06);
-					box-shadow: 0 0 1em rgba(0,0,0,0.2);
+					box-shadow: 0 0 1em rgba(0,0,0,0.3);
 				}
 			}
 			@media not all and (hover: none), all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 				:root body:not(.wp-admin) .wpn-features a:hover,
 				:root body:not(.wp-admin) .wpn-features a:focus {
-					border: 1px solid rgba(0,0,0,1);
 					z-index: 2;
 					transform: scale(1.06);
-					box-shadow: 0 0 1em rgba(0,0,0,0.2);
+					box-shadow: 0 0 1em rgba(0,0,0,0.3);
 				}
 			}
 	:root .wpn-features img {
@@ -138,6 +136,7 @@
 	}
 
 :root .wpn-f-bfg {
+	background: #000;
 	max-width: 100%;
 }
 	@media (max-width: 800px) {
