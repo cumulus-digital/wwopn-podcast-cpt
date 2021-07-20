@@ -57,7 +57,7 @@ class CPT {
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_headercolor',
 			'title' => 'Header Color',
-			'type' => 'color',
+			'type' => 'text',
 			'context' => 'side',
 			'priority' => 'low',
 		]);
@@ -74,7 +74,7 @@ class CPT {
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_header3dcolor',
 			'title' => 'Header 3D Color',
-			'type' => 'color',
+			'type' => 'text',
 			'context' => 'side',
 			'priority' => 'low',
 		]);
@@ -346,7 +346,8 @@ class CPT {
 			return;
 		}
 
-		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(BASE_FILENAME) . 'assets/editor/scripts.js', ['wp-util'] );
+		\wp_enqueue_style( 'wp-color-picker' );
+		\wp_enqueue_script( PREFIX . '_editor_scripts', \plugin_dir_url(BASE_FILENAME) . 'assets/editor/scripts.js', ['wp-util', 'wp-color-picker'] );
 
 		// Set up AJAX for editor script
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";

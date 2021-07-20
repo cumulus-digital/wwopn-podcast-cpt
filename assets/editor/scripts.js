@@ -55,7 +55,7 @@
 
 				// store current input state
 				$this.data('original', compileData(this));
-				
+
 				var sortable = new window.Sortable.default(
 					this,
 					{
@@ -71,8 +71,8 @@
 				sortable.on('drag:start', preventDragOnInputs);
 				sortable.on('mirror:destroy', compareSortableContent);
 				$this.data('sortable', sortable);
-			});		
-			
+			});
+
 		}
 	});
 
@@ -270,6 +270,11 @@
 			$img.attr('src','data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
 			$this.removeClass('has_image');
 		});
+	});
+
+	// Color pickers
+	$(function () {
+		$('#meta_text__wpn_podcast_meta_headercolor,#meta_text__wpn_podcast_meta_header3dcolor').wpColorPicker();
 	});
 
 }(jQuery, window.self));
