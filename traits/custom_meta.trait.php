@@ -42,6 +42,9 @@ trait CustomMetaboxes {
 	 */
 	static function sanitizeValue($type = 'string', $value, $saveTags = false, $post_id = 0) {
 		switch($type) {
+			case 'color':
+				return (string) \sanitize_textarea_field(self::stripWhitespace($value, $post_id));
+				break;
 			case 'url':
 				return (string) esc_url_raw($value);
 				break;
@@ -490,6 +493,9 @@ trait CustomMetaboxes {
 			$options
 		);
 		switch($meta->type) {
+			case 'color':
+				return self::displayField_COLOR($meta, $value, $options);
+				break;
 			case 'string':
 			case 'text':
 				return self::displayField_TEXT($meta, $value, $options);
@@ -535,12 +541,32 @@ trait CustomMetaboxes {
 		throw new \Exception('Attempted to autocreate a metabox with an unsupported type.');
 	}
 
+	static function displayField_COLOR($meta, $value, array $options = array()) {
+		?>
+		<p class="<?=$options['sortable'] ? 'sortable' : ''?>">
+			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
+			<input type="color" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="<?=$meta->spellcheck ?>" autocomplete="<?=$meta->autocomplete ?>"
+				<?php if ($meta->required): ?>
+					required="<?=esc_attr($meta->required) ?>"
+				<?php endif ?>
+				<?php if ($meta->pattern): ?>
+					pattern="<?=esc_attr($meta->pattern) ?>"
+				<?php endif ?>
+			>
+			<?php if ($meta->howto): ?>
+				<label class="howto"><?=$meta->howto ?></label>
+			<?php endif ?>
+		</p>
+
+		<?php
+	}
+
 	static function displayField_TEXT($meta, $value, array $options = array()) {
 		?>
 
 		<p class="<?=$options['sortable'] ? 'sortable' : ''?>">
 			<label for="meta_text_<?=$meta->key ?>"><?=esc_html($meta->title) ?></label>
-			<input type="text" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>" spellcheck="<?=$meta->spellcheck ?>" autocomplete="<?=$meta->autocomplete ?>"
+			<input type="text" name="<?=$meta->key ?>" size="30" value="<?=esc_attr($value) ?>" id="meta_text_<?=$meta->key ?>"
 				<?php if ($meta->required): ?>
 					required="<?=esc_attr($meta->required) ?>"
 				<?php endif ?>

@@ -55,6 +55,14 @@ class CPT {
 		]);
 
 		self::registerMeta([
+			'key' => '_' . PREFIX . '_meta_headercolor',
+			'title' => 'Header Color',
+			'type' => 'color',
+			'context' => 'side',
+			'priority' => 'low',
+		]);
+
+		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_headerimage',
 			'title' => 'Header Image',
 			'howto' => '<strong>Header image must be less than ' . self::$image_size_limit . '.</strong>',
@@ -62,6 +70,15 @@ class CPT {
 			'context' => 'side',
 			'priority' => 'low',
 		]);
+
+		self::registerMeta([
+			'key' => '_' . PREFIX . '_meta_header3dcolor',
+			'title' => 'Header 3D Color',
+			'type' => 'color',
+			'context' => 'side',
+			'priority' => 'low',
+		]);
+
 
 		self::registerMeta([
 			'key' => '_' . PREFIX . '_meta_social',
@@ -406,7 +423,7 @@ class CPT {
 			if (\get_post_type($post_id) === PREFIX) {
 				$size = filter_var($file['size'], FILTER_SANITIZE_NUMBER_INT);
 				if ($size > self::convertToBytes(self::$image_size_limit)) {
-					$file['error'] = 
+					$file['error'] =
 						'Podcast images must be less than ' . self::$image_size_limit . '.';
 				}
 			}
