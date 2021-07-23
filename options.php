@@ -55,7 +55,7 @@ class Options {
 		}
 
 		$settings = [
-			'<a href="' . 
+			'<a href="' .
 				\esc_url(
 					\admin_url(
 						'/options-general.php?page=' .
@@ -79,39 +79,41 @@ class Options {
 		);
 
 		\add_settings_section(
-			PREFIX . '_options_hidestuff', 
-			__( 'Hide Default Sections' ), 
+			PREFIX . '_options_hidestuff',
+			__( 'Hide Default Sections' ),
 			function() {
 				echo __( 'Select the default Wordpress content types to hide from the admin.' );
-			}, 
+			},
 			PREFIX
 		);
 
-		\add_settings_field( 
-			PREFIX . '_checkbox_posts', 
-			__( 'Posts' ), 
+		\add_settings_field(
+			PREFIX . '_checkbox_posts',
+			__( 'Posts' ),
 			function() {
 				self::renderCheckbox(PREFIX . '_checkbox_posts');
 			},
-			PREFIX, 
+			PREFIX,
 			PREFIX . '_options_hidestuff',
 			[
 				'label_for' => PREFIX . '_checkbox_posts'
 			]
 		);
 
-		\add_settings_field( 
-			PREFIX . '_checkbox_comments', 
-			__( 'Comments' ), 
+		/*
+		\add_settings_field(
+			PREFIX . '_checkbox_comments',
+			__( 'Comments' ),
 			function() {
 				self::renderCheckbox(PREFIX . '_checkbox_comments');
 			},
-			PREFIX, 
+			PREFIX,
 			PREFIX . '_options_hidestuff',
 			[
 				'label_for' => PREFIX . '_checkbox_comments'
 			]
 		);
+		*/
 
 	}
 
@@ -123,7 +125,7 @@ class Options {
 			\checked(
 				array_key_exists($name, $options) ? $options[$name] : 0,
 				1
-			); 
+			);
 		?> value="1">
 		<?php
 	}
@@ -169,12 +171,14 @@ class Options {
 	    	$wp_admin_bar->add_node($user);
 	    }
 
+		/*
 	    if (
 	    	array_key_exists(PREFIX . '_checkbox_comments', $options) &&
 	    	$options[PREFIX . '_checkbox_comments'] == 1
 	    ) {
 	    	$wp_admin_bar->remove_node( 'comments' );
 	    }
+		*/
 	}
 
 	static function execute() {
@@ -192,6 +196,7 @@ class Options {
 			}
 
 			// Disable comments
+			/*
 			if (
 				array_key_exists(PREFIX . '_checkbox_comments', $options) &&
 				$options[PREFIX . '_checkbox_comments'] == 1
@@ -206,6 +211,7 @@ class Options {
 					}
 				}
 			}
+			*/
 		});
 	}
 
