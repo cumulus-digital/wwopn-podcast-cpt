@@ -55,9 +55,9 @@
 		    			$posts.push($(
 		    				'<tr class="found-posts ' + ((i%2) ? 'alternate' : '') + '">' +
 		    					'<td class="found-radio"><input type="radio" name="found_post_id" id="found-' + post.id + '" value="' + post.id + '"></td>' +
-		    					'<td><label for="found-' + post.id + '"><img src="' + 
+		    					'<td><label for="found-' + post.id + '"><img src="' +
 		    						(post.featured_media_url || "") +
-		    					'" width="75px"></label></td>' + 
+		    					'" width="75px"></label></td>' +
 		    					'<td width="100%"><label for="found-' + post.id + '">' + post.title.rendered + '</label></td>' +
 		    				'</tr>'
 		    			));
@@ -76,13 +76,15 @@
 		 */
 		$feature_items.on('click', function(e) {
 			e.preventDefault();
-			var $this = $(this);
+			var $this = $(this),
+				$target = $(e.target);
 
 			// Handle box clearing clicks
-			if (e.target.className === 'wpn-f-clear') {
+			if ($target.is('.wpn-f-clear')) {
 				var $img = $('img', $this);
-				$img.attr('src', $img.data('empty'));
+				$img.prop('src', $img.data('empty'));
 				$('input', $this).val('').attr('value', '');
+				$feature_post_form.data('changed', true);
 				return;
 			}
 
@@ -152,14 +154,14 @@
 		 * If features have changed, confirm before leaving page
 		 */
 		$(window).on('beforeunload', function(e) {
-			if ($feature_post_form.data('changed')) {
+			if ($feature_post_form.data('changed') && ! $feature_post_form.data('submitting')) {
 				var txt = "You have unsaved changes, are you sure you want to leave this page?";
 				e.returnValue = txt;
 				return txt;
 			}
 		});
 		$('input[type=submit]', $feature_post_form).on('click', function() {
-			$feature_post_form.data('changed', false);
+			$feature_post_form.data('submitting', true);
 		});
 
 		/**
