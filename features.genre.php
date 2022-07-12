@@ -10,9 +10,9 @@ class GenreFeature {
 
 	use FeaturesTrait;
 
-	static $screen = 'wpn_features_genres';
-
 	static function init() {
+
+		self::$screen = 'wpn_features_genres';
 
 		self::$option_key = '_' . PREFIX . '_features_genres';
 
@@ -39,7 +39,7 @@ class GenreFeature {
 		global $title;
 
 		$key = PREFIX . '_features';
-		
+
 		$genre_id = null;
 		$feature_ids = [];
 
@@ -90,7 +90,7 @@ class GenreFeature {
 
 		if (testPostValue('genre_id')) {
 			$genre_id = cast($_POST['genre_id'], 'int');
-			
+
 			$genre = \get_term($genre_id);
 			if (\is_wp_error($genre)) {
 				\wp_die('Requested a genre which does not exist.');

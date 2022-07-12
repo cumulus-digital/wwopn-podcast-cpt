@@ -11,7 +11,7 @@ namespace WWOPN_Podcast;
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$feature->id?>">
 							<span class="wpn-f-clear" title="Clear this box"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
-						<?=\get_the_post_thumbnail($feature->id, 'full', ['alt' => \esc_attr($feature->post_title), 'data-empty' => \esc_attr($feature->empty)])?>
+						<?php echo \get_the_post_thumbnail($feature->id, 'medium', ['alt' => \esc_attr($feature->post_title), 'data-empty' => \esc_attr($feature->empty)]); ?>
 					</a>
 				<?php elseif(\is_admin()): ?>
 					<a class="wpn_feature" title="Click to set a feature">

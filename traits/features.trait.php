@@ -6,6 +6,7 @@ namespace WWOPN_Podcast;
 
 trait FeaturesTrait {
 
+	static $screen;
 	static $option_key;
 
 	static function parentInit() {
@@ -82,12 +83,12 @@ trait FeaturesTrait {
 					);
 					if (count($has_post)) {
 						$has_post = array_pop($has_post);
-						$thumb_id = (int) \get_post_thumbnail_id($has_post->ID);
+						//$thumb_id = (int) \get_post_thumbnail_id($has_post->ID);
 						$features[$index] = (object) [
 							'id' => $has_post->ID,
 							'post_title' => $has_post->post_title,
 							'permalink' => \get_post_permalink($has_post->ID),
-							'icon' => \wp_get_attachment_url($thumb_id),
+							//'icon' => $thumb_id,
 							'empty' => $empty,
 						];
 					}

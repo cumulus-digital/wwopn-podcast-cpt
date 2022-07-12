@@ -82,7 +82,13 @@
 			// Handle box clearing clicks
 			if ($target.is('.wpn-f-clear')) {
 				var $img = $('img', $this);
-				$img.prop('src', $img.data('empty'));
+				$img.attr({
+					'src': $img.data('empty'),
+					'srcset': '',
+					'sizes': '',
+					'loading': '',
+					'alt': ''
+				});
 				$('input', $this).val('').attr('value', '');
 				$feature_post_form.data('changed', true);
 				return;
@@ -125,7 +131,10 @@
 						});
 						$('img', $position).attr({
 							'src': data.featured_media_url,
-							'alt': data.title.rendered
+							'alt': data.title.rendered,
+							'loading': null,
+							'srcset': null,
+							'sizes': null,
 						});
 						$('input', $position).attr('value', data.id).val(data.id);
 						$position.css('opacity', 1);

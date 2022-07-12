@@ -10,17 +10,17 @@
 					<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 					<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 				<?php endif ?>
-				<img
-					<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
-						src="" data-src="<?=$features[$j]->icon ?>"
-					<?php else: ?>
-						src="<?=$features[$j]->icon?>"
-					<?php endif ?>
-					<?php if (\is_admin()): ?>
-						data-empty="<?=$features[$j]->empty?>"
-					<?php endif ?>
-					alt="<?=\esc_attr($features[$j]->post_title) ?>"
-				>
+				<?php
+					echo \get_the_post_thumbnail(
+						$features[$j]->id,
+						'large',
+						[
+							'data-empty' => \is_admin() ? $features[$j]->empty : '',
+							'alt' => $features[$j]->post_title,
+							'sizes' => '(min-width: 1000px) 33vw, 50vw'
+						]
+					);
+				?>
 				<?php $j++ ?>
 			</a>
 		</li>
@@ -32,17 +32,17 @@
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
-						<img
-							<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
-								src="" data-src="<?=$features[$j]->icon ?>"
-							<?php else: ?>
-								src="<?=$features[$j]->icon?>"
-							<?php endif ?>
-							<?php if (\is_admin()): ?>
-								data-empty="<?=$features[$j]->empty?>"
-							<?php endif ?>
-							alt="<?=\esc_attr($features[$j]->post_title) ?>"
-						>
+						<?php
+							echo \get_the_post_thumbnail(
+								$features[$j]->id,
+								'medium',
+								[
+									'data-empty' => \is_admin() ? $features[$j]->empty : '',
+									'alt' => $features[$j]->post_title,
+									'sizes' => '(min-width: 1000px) 33vw, 50vw'
+								]
+							);
+						?>
 						<?php $j++ ?>
 					</a>
 				</li>
@@ -52,17 +52,17 @@
 							<input class="wpn-f-id" type="hidden" name="<?=$key?>-id[]" value="<?=$features[$j]->id?>">
 							<span class="wpn-f-clear"><span class="screen-reader-text">Clear this box.</span></span>
 						<?php endif ?>
-						<img
-							<?php if (defined('HAS_LAZY') && ! \is_admin()): ?>
-								src="" data-src="<?=$features[$j]->icon ?>"
-							<?php else: ?>
-								src="<?=$features[$j]->icon?>"
-							<?php endif ?>
-							<?php if (\is_admin()): ?>
-								data-empty="<?=$features[$j]->empty?>"
-							<?php endif ?>
-							alt="<?=\esc_attr($features[$j]->post_title) ?>"
-						>
+						<?php
+							echo \get_the_post_thumbnail(
+								$features[$j]->id,
+								'medium',
+								[
+									'data-empty' => \is_admin() ? $features[$j]->empty : '',
+									'alt' => $features[$j]->post_title,
+									'sizes' => '(min-width: 1000px) 33vw, 50vw'
+								]
+							);
+						?>
 						<?php $j++ ?>
 					</a>
 				</li>

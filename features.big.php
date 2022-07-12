@@ -10,9 +10,9 @@ class BigFeature {
 
 	use FeaturesTrait;
 
-	static $screen = 'wpn_features_big';
-
 	static function init() {
+
+		self::$screen = 'wpn_features_big';
 
 		self::$option_key = '_' . PREFIX . '_features_big';
 
@@ -39,7 +39,7 @@ class BigFeature {
 		global $title;
 
 		$key = PREFIX . '_features';
-		
+
 		$feature_ids = \get_option(
 			self::$option_key,
 			array_fill(0,9,0)
@@ -73,7 +73,7 @@ class BigFeature {
 		if ( ! testPostValue($index_key)) {
 			return;
 		}
-		
+
 		\update_option(self::$option_key, $_POST[$index_key]);
 
 		\add_action('admin_notices', function(){
