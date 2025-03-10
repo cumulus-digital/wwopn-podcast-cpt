@@ -488,7 +488,7 @@ class CPT {
 	 */
 	public static function migrations( $wp ) {
 		if (
-			$wp->query_vars['post_type'] !== PREFIX
+			( \array_key_exists( 'post_type', $wp->query_vars ) && $wp->query_vars['post_type'] !== PREFIX )
 			|| ( \is_singular() && ! \is_singular( PREFIX ) )
 			|| ( \is_admin() && ! \get_post_type() !== PREFIX )
 		) {
