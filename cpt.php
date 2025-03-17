@@ -18,6 +18,69 @@ class CPT {
 	// Image size limit
 	public static $image_size_limit = '1mB';
 
+	// Supported store links
+	public static $supported_stores = array(
+		'amazon' => array(
+			'key'   => 'amazon',
+			'type'  => 'url',
+			'title' => 'Amazon Music',
+		),
+		'apple' => array(
+			'key'   => 'apple',
+			'type'  => 'url',
+			'title' => 'Apple Podcasts',
+		),
+		'daily-wire' => array(
+			'key'   => 'daily-wire',
+			'type'  => 'url',
+			'title' => 'The Daily Wire',
+		),
+		/*
+		'google' => array(
+			'key'      => 'google',
+			'type'     => 'url',
+			'title'    => 'Google Podcasts',
+			'disabled' => true,
+		),
+		'stitcher' => array(
+			'key'      => 'stitcher',
+			'type'     => 'url',
+			'title'    => 'Stitcher',
+			'disabled' => true,
+		),
+		 */
+		'rumble' => array(
+			'key'   => 'rumble',
+			'type'  => 'url',
+			'title' => 'Rumble',
+		),
+		'tunein' => array(
+			'key'   => 'tunein',
+			'type'  => 'url',
+			'title' => 'TuneIn',
+		),
+		'spotify' => array(
+			'key'   => 'spotify',
+			'type'  => 'url',
+			'title' => 'Spotify',
+		),
+		'pandora' => array(
+			'key'   => 'pandora',
+			'type'  => 'url',
+			'title' => 'Pandora',
+		),
+		'siriusxm' => array(
+			'key'   => 'siriusxm',
+			'type'  => 'url',
+			'title' => 'SiriusXM',
+		),
+		'youtube' => array(
+			'key'   => 'youtube',
+			'type'  => 'url',
+			'title' => 'YouTube',
+		),
+	);
+
 	public static function init() {
 		\add_action( 'init', array( __CLASS__, 'register' ) );
 
@@ -123,58 +186,7 @@ class CPT {
 			'key'      => '_' . PREFIX . '_meta_storelinks',
 			'title'    => 'Store Links',
 			'type'     => 'multi',
-			'subtypes' => array(
-				'amazon' => array(
-					'key'   => 'amazon',
-					'type'  => 'url',
-					'title' => 'Amazon Music',
-				),
-				'apple' => array(
-					'key'   => 'apple',
-					'type'  => 'url',
-					'title' => 'Apple Podcasts',
-				),
-				'daily-wire' => array(
-					'key'   => 'daily-wire',
-					'type'  => 'url',
-					'title' => 'The Daily Wire',
-				),
-				'google' => array(
-					'key'   => 'google',
-					'type'  => 'url',
-					'title' => 'Google Podcasts',
-				),
-				'stitcher' => array(
-					'key'   => 'stitcher',
-					'type'  => 'url',
-					'title' => 'Stitcher',
-				),
-				'tunein' => array(
-					'key'   => 'tunein',
-					'type'  => 'url',
-					'title' => 'TuneIn',
-				),
-				'spotify' => array(
-					'key'   => 'spotify',
-					'type'  => 'url',
-					'title' => 'Spotify',
-				),
-				'pandora' => array(
-					'key'   => 'pandora',
-					'type'  => 'url',
-					'title' => 'Pandora',
-				),
-				'siriusxm' => array(
-					'key'   => 'siriusxm',
-					'type'  => 'url',
-					'title' => 'SiriusXM',
-				),
-				'youtube' => array(
-					'key'   => 'youtube',
-					'type'  => 'url',
-					'title' => 'YouTube',
-				),
-			),
+			'subtypes' => self::$supported_stores,
 			'sortable' => true,
 			'howto'    => '<label class="howto">Add URLs for this podcast in other locations. Empty stores will not be displayed.</label>',
 			'context'  => 'normal',
@@ -332,11 +344,35 @@ class CPT {
 		$pod_id     = self::getID( $pod_id );
 		$storelinks = \get_post_meta( $pod_id, '_' . PREFIX . '_meta_storelinks', true );
 
-		return \array_filter( (array) $storelinks, function ( $link ) {
-			if ( \mb_strlen( $link ) ) {
-				return true;
+		return \array_filter( (array) $storelinks, function ( $link, $store ) {
+			if ( ! \array_key_exists( $store, self::$supported_stores ) ) {
+				\do_action( 'qm/debug', 'Unsupported store: ' . $store );
+
+				return false;
 			}
-		} );
+			if ( \array_key_exists( 'disabled', self::$supported_stores[$store] ) && self::$supported_stores[$store]['disabled'] ) {
+				\do_action( 'qm/debug', 'Disabled store: ' . $store );
+
+				return false;
+			}
+			if ( ! \mb_strlen( $link ) ) {
+				\do_action( 'qm/debug', 'Empty link for store: ' . $store );
+
+				return false;
+			}
+
+			return true;
+		}, \ARRAY_FILTER_USE_BOTH );
+	}
+
+	public static function getStoreBadgeURL( $type = null ) {
+		$fragment = '/assets/badges/' . $type . '.svg';
+		$path     = BASEPATH . $fragment;
+		if ( $type && \file_exists( $path ) ) {
+			return \plugin_dir_url( __FILE__ ) . $fragment;
+		}
+
+		return false;
 	}
 
 	public static function getPlayerEmbed( $pod_id = null ) {
