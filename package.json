@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/cumulus-digital/wp-cmls-base#readme",
   "devDependencies": {
-    "@wordpress/scripts": "^30.13.0",
+    "@wordpress/scripts": "^30.26.0",
     "prettier": "npm:wp-prettier@^3.0.3"
   }
 }
