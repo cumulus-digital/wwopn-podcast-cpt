@@ -16,7 +16,7 @@
 
 .wpn_meta_autosave p.sortable {
 	background-color: #fff;
-	padding-left: 10px;
+	padding-left: 15px;
 	position: relative;
 	-webkit-touch-callout: none;
 	    -webkit-user-select: none;
@@ -35,8 +35,13 @@
 		font-size: 1.5em;
 		font-weight: bold;
 		position: absolute;
-		left: 0;
-		top: calc(50% - .75em);
+		left: -15px;
+		width: 32px;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 2;
 	}
 
 	.wpn_meta_autosave p.draggable-mirror {

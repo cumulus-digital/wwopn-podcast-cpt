@@ -37,17 +37,17 @@
 	z-index: 20;
 }
 
-:root .wpn-f-clear {
+:root .wpn-f-boxoption {
+	background: rgba(0,0,0,0.3);
 	position: absolute;
 	top: 0;
-	right: 0;
 	z-index: 10;
-	padding: 3%;
+	padding: 8px;
+	opacity: 0.3;
 }
-	:root .wpn-f-clear::before {
+	:root .wpn-f-boxoption::before {
 		color: #fff;
-		content: "\f153";
-		font: 400 16px/20px dashicons;
+		font: 400 18px/1 dashicons;
 		text-shadow:
 			-1px -1px #000,
 			   0 -1px #000,
@@ -58,11 +58,52 @@
 			-1px  1px #000,
 			-1px    0 #000,
 			0 0 1em rgba(0,0,0,0.6);
+		vertical-align: middle;
 	}
 	@media not all and (hover: none), all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		:root .wpn-f-clear:hover::before {
-			color: red;
+		:root .wpn-features a:hover .wpn-f-boxoption {
+			opacity: 1;
 		}
+		:root .wpn-f-boxoption:hover {
+			background: rgba(0,0,0,0.5);
+		}
+		:root .wpn-f-boxoption:hover::before {
+			color: red;
+			text-shadow:
+			-1px -1px #fff,
+			   0 -1px #fff,
+			 1px -1px #fff,
+			 1px    0 #fff,
+			 1px  1px #fff,
+			   0  1px #fff,
+			-1px  1px #fff,
+			-1px    0 #fff,
+			0 0 1em rgba(0,0,0,0.6);
+		}
+	}
+
+:root .wpn-f-drag {
+	left: 0;
+	border-bottom-right-radius: 8px;
+}
+	:root .wpn-f-drag::before {
+		content: "\f545";
+	}
+	:root input[value=""] + .wpn-f-drag {
+		display: none;
+	}
+	@media not all and (hover: none), all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		:root .wpn-f-drag:hover::before {
+			color: green;
+		}
+	}
+
+:root .wpn-f-clear {
+	right: 0;
+	border-bottom-left-radius: 8px;
+}
+	:root .wpn-f-clear::before {
+		content: "\f153";
 	}
 	:root input[value=""] + .wpn-f-clear {
 		display: none;
@@ -122,6 +163,10 @@
 				}
 			}
 			@media not all and (hover: none), all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				:root body.wp-admin .wpn-features a:hover {
+					outline: 1px solid yellow;
+					z-index: 2;
+				}
 				:root body:not(.wp-admin) .wpn-features a:hover,
 				:root body:not(.wp-admin) .wpn-features a:focus {
 					z-index: 2;
@@ -289,3 +334,16 @@
 			max-width: 19.5%;
 		}
 	}
+
+.wpn-f-mobile-only {
+	display: none;
+}
+
+@media (max-width: 800px) {
+	.wpn-f-mobile-only {
+		display: block;
+	}
+	.wpn-f-desktop-only {
+		display: none;
+	}
+}

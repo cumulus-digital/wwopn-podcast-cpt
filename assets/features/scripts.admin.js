@@ -176,10 +176,11 @@
 		/**
 		 * Initialize swappable
 		 */
-		if (window.Swappable) {
+		if (window.Draggable) {
 			var swapcontainer = document.querySelector('.wpn-features');
 			if (swapcontainer) {
-				var swapper = new Swappable.default(swapcontainer, {
+				var swapper = new Draggable.Swappable(swapcontainer, {
+					handle: '.wpn-f-drag',
 					draggable: '.wpn-features a.wpn-feature',
 					mirror: {
 						constrainDimensions: true

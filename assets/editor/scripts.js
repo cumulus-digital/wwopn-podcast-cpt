@@ -6,7 +6,8 @@
 	}
 
 	$(function(){
-		if (window.Sortable) {
+		if (window.Draggable) {
+			console.log('Initializing sortable');
 
 			var valid_inputs = 'input[type!=hidden],input.image_id,select,textarea';
 
@@ -56,11 +57,11 @@
 				// store current input state
 				$this.data('original', compileData(this));
 
-				var sortable = new window.Sortable.default(
+				var sortable = new Draggable.Sortable(
 					this,
 					{
 						draggable: 'p.sortable',
-						delay: 300,
+						delay: 100,
 						mirror: {
 							xAxis: false,
 							constrainDimensions: true
@@ -71,6 +72,7 @@
 				sortable.on('drag:start', preventDragOnInputs);
 				sortable.on('mirror:destroy', compareSortableContent);
 				$this.data('sortable', sortable);
+				console.log('sortable', this);
 			});
 
 		}

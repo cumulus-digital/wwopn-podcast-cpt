@@ -17,7 +17,7 @@ trait CustomMetaboxes {
 	}
 
 	public static function enqueueSortableScript() {
-		\wp_enqueue_script( 'sortable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.7/lib/sortable.js' );
+		\wp_enqueue_script( 'sortable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/umd/index.min.js' );
 	}
 
 	/**

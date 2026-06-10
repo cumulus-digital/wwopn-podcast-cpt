@@ -32,7 +32,7 @@ trait FeaturesTrait {
 		\wp_enqueue_script('media');
 		\wp_enqueue_script('wp-ajax-response');
 
-		\wp_enqueue_script( 'swappable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.7/lib/swappable.js');
+		\wp_enqueue_script( 'swappable', 'https://cdn.jsdelivr.net/npm/@shopify/draggable/build/umd/index.min.js');
 		\wp_enqueue_script( PREFIX . '_feature_scripts', \plugin_dir_url(BASE_FILENAME) . 'assets/features/scripts.admin.js', ['wp-api', 'swappable'] );
 		\wp_enqueue_style( PREFIX . '_feature_styles', \plugin_dir_url(BASE_FILENAME) . 'assets/features/styles.css' );
 	}
