@@ -1,5 +1,5 @@
 <?php
-namespace WWOPN_Podcast;
+namespace WWOPN_Podcast\Features\Genre;
 ?>
 <section class="wpn-features wpn-f-genre">
 	<ul class="wpn-f-container">

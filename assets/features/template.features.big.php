@@ -1,5 +1,5 @@
 <?php
-	namespace WWOPN_Podcast;
+	namespace WWOPN_Podcast\Features\Big;
 
 	// if function undefined...
 	if ( ! function_exists(__NAMESPACE__ . '\outputBigFeatureFeature')) {
